@@ -1,0 +1,13 @@
+{
+  "name": "ADE",
+  "homepage": "https://github.com/Toodledo/ADE",
+  "_release": "0f386e0736",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "0f386e07368de7c40334afa8fac3dbf1acca4b57"
+  },
+  "_source": "https://github.com/Toodledo/ADE.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/Toodledo/ADE.git"
+}

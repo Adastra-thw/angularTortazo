@@ -1,0 +1,14 @@
+{
+  "name": "jquery.splitter",
+  "homepage": "https://github.com/jcubic/jquery.splitter",
+  "version": "0.8.0",
+  "_release": "0.8.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.8.0",
+    "commit": "492374990cc46af237b6f1966515ce33737d5d3e"
+  },
+  "_source": "https://github.com/jcubic/jquery.splitter.git",
+  "_target": "~0.8.0",
+  "_originalSource": "https://github.com/jcubic/jquery.splitter.git"
+}
