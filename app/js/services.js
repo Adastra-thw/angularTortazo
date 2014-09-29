@@ -9,9 +9,9 @@ angular.module('tortazoApp.services', []).
     }
 
 
-    djangoTortazoAPI.getRelays = function() {
+    djangoTortazoAPI.getRelays = function(scanId) {
       return $http({
-        url: 'http://127.0.0.1:8000/scan/torNodeData/'
+        url: 'http://127.0.0.1:8000/scan/torNodeData/?scanid='+scanId
       });
     }
 
