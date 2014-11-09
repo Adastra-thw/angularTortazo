@@ -42,27 +42,14 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>
-                                Id
-                            </th>
-                            <th>
-                                Address
-                            </th>
-                            <th>
-                                User.
-                            </th>
-                            <th>
-                                Password
-                            </th>
-                            <th>
-                                Port
-                            </th>
-                            <th>
-                                Nickname
-                            </th>
-                            <th>
-                                Service
-                            </th>
+                            <th>#</th>
+                            <th>Id</th>
+                            <th>Address</th>
+                            <th>User</th>
+                            <th>Password</th>
+                            <th>Port</th>
+                            <th>Nickname</th>
+                            <th>Service</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,11 +57,12 @@
                             <td>{{$index + 1}}</td>
                             <td>{{bot.id}}</td>
                             <td>{{bot.address}}</td>
-                            <td>{{bot.user}}</td>
+                            <td>{{bot.userservice}}</td>
                             <td>{{bot.password}}</td>
                             <td>{{bot.port}}</td>
-                                <a href="" ng-click="loadRelays(scan.id)" ng-model="relaysList">{{ scan.id }}</a>
-                            </td>
+                            <td>{{bot.nickname}}</td>
+                            <td>{{bot.servicetype}}</td>
+
                         </tr>
                     </tbody>
                 </table>

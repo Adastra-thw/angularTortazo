@@ -51,14 +51,18 @@
                             <th>
                                 Scan Date
                             </th>
+                            <th>
+                                Num. Relays
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="scan in scansList">
                             <td>{{$index + 1}}</td>
                             <td>{{scan.id}}</td>
-                            <td>{{scan.scandate}}
-                                <a href="" ng-click="loadRelays(scan.id)" ng-model="relaysList">{{ scan.id }}</a>
+                            <td>{{scan.scandate}}</td>
+                            <td>
+                                <a ng-click="functionLoadRelays(scan.id)" ng-model="relaysList">{{ scan.numnodes +1 }}</a>
                             </td>
                         </tr>
                     </tbody>
