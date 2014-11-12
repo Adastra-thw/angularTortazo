@@ -1,5 +1,5 @@
 var tortazoControllers = angular.module('tortazoApp.controllers', [])
-
+var bootstrapModule = angular.module('tortazoApp.ui', ['ui.bootstrap']);
 
 
 tortazoControllers.controller('scansController', function($scope, scansService) {
@@ -40,4 +40,22 @@ tortazoControllers.controller('botnetController', function($scope, botnetService
         $scope.botLocations  = response.results;
     });
 
-})
+});
+
+
+
+
+bootstrapModule.controller('AlertDemoCtrl', function ($scope) {
+  $scope.alerts = [
+    { type: 'danger', msg: 'Danger.' },
+    { type: 'success', msg: 'Well done! ' }
+  ];
+
+  $scope.addAlert = function() {
+    $scope.alerts.push({msg: 'Another alert!'});
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
+});
