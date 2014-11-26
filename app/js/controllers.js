@@ -5,8 +5,8 @@ var bootstrapModule = angular.module('tortazoApp.ui', ['ui.bootstrap']);
 tortazoControllers.controller('scansController', function($scope, scansService) {
     $scope.scansList = [];
     $scope.relaysList = [];
-    /**
 
+    /**
     * Functions for "scans.html"
     */
     scansService.getScans().success(function (response) {
@@ -19,6 +19,7 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
                $scope.relaysList = response.results;
           });
     };
+
 })
 
 tortazoControllers.controller('botnetController', function($scope, botnetService) {
