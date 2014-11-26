@@ -36,86 +36,91 @@
             Here comes the map with points
         </div>
 		<div class="col-md-12 column">
-            <div ng-controller="scansController">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Scan Number
-                            </th>
-                            <th>
-                                Scan Id.
-                            </th>
-                            <th>
-                                Scan Date
-                            </th>
-                            <th>
-                                Num. Relays
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="scan in scansList">
-                            <td>{{$index + 1}}</td>
-                            <td>{{scan.id}}</td>
-                            <td>{{scan.scandate}}</td>
-                            <td>
-                                <a ng-click="functionLoadRelays(scan.id)" ng-model="relaysList">{{ scan.numnodes +1 }}</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br />
-                <div ng-hide="!relaysList.length">
-                    <table class="table">
+            <div class="table-responsive" ng-controller="scansController">
+                <div class="panel panel-primary"><div class="panel-heading">Scans performed.</div>
+                    <table class="table table-bordered table-hover table-bordered">
                         <thead>
                             <tr>
                                 <th>
-                                    Relay Number
+                                    Scan Number
                                 </th>
                                 <th>
-                                    Id.
+                                    Scan Id.
                                 </th>
                                 <th>
-                                    State.
+                                    Scan Date
                                 </th>
                                 <th>
-                                    Reason.
-                                </th>
-                                <th>
-                                    Nickname.
-                                </th>
-                                <th>
-                                    Fingerprint.
-                                </th>
-                                <th>
-                                    Tor Version.
-                                </th>
-                                <th>
-                                    Contact Address
-                                </th>
-                                <th>
-                                    Scan Id
+                                    Num. Relays
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="relay in relaysList">
+                            <tr ng-repeat="scan in scansList">
                                 <td>{{$index + 1}}</td>
-                                <td>{{relay.id}}</td>
-                                <td>{{relay.state}}</td>
-                                <td>{{relay.reason}}</td>
-                                <td>{{relay.nickname}}</td>
-                                <td>{{relay.fingerprint}}</td>
-                                <td>{{relay.torversion}}</td>
-                                <td>{{relay.contact}}</td>
-                                <td>{{relay.scanid}}</td>
+                                <td>{{scan.id}}</td>
+                                <td>{{scan.scandate}}</td>
+                                <td>
+                                    <a ng-click="functionLoadRelays(scan.id)" ng-model="relaysList">{{ scan.numnodes +1 }}</a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <br />
-                <a class="btn btn-primary btn-large" href="index.html">Back</a>
+
+                <div class="table-responsive" ng-hide="!relaysList.length">
+                    <div class="panel panel-primary"><div class="panel-heading">Relays found in the scan  {{ scanIdSelected }} .</div>
+                        <table class="table table-bordered table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Relay Number
+                                    </th>
+                                    <th>
+                                        Id.
+                                    </th>
+                                    <th>
+                                        State.
+                                    </th>
+                                    <th>
+                                        Reason.
+                                    </th>
+                                    <th>
+                                        Nickname.
+                                    </th>
+                                    <th>
+                                        Fingerprint.
+                                    </th>
+                                    <th>
+                                        Tor Version.
+                                    </th>
+                                    <th>
+                                        Contact Address
+                                    </th>
+                                    <th>
+                                        Scan Id
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="relay in relaysList">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{relay.id}}</td>
+                                    <td>{{relay.state}}</td>
+                                    <td>{{relay.reason}}</td>
+                                    <td>{{relay.nickname}}</td>
+                                    <td>{{relay.fingerprint}}</td>
+                                    <td>{{relay.torversion}}</td>
+                                    <td>{{relay.contact}}</td>
+                                    <td>{{relay.scanid}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                 </div>
+                <br />
+                <div class="navbar-right"><a class="btn btn-primary btn-large" href="index.html">Back</a></div>
             </div>
 		</div>
 	</div>

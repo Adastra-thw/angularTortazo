@@ -14,6 +14,7 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
     });
 
     $scope.functionLoadRelays = function(scanId) {
+          $scope.scanIdSelected = scanId
           scansService.getRelays(scanId).success(function (response) {
                $scope.relaysList = response.results;
           });
