@@ -44,23 +44,27 @@ tortazoControllers.controller('botnetController', function($scope, botnetService
 
 });
 
+tortazoControllers.controller('onionRepoController', function($scope, onionRepoService) {
+   $scope.incrementalList = [];
+   $scope.responsesList = [];
+   /**
+    * Functions for "onionrepository.html"
+    */
+    onionRepoService.getOnionRepoIncremental().success(function (response) {
+        $scope.incrementalList   = response.results;
+    });
 
-bootstrapModule.controller('AlertDemoCtrl', function ($scope) {
-  $scope.alerts = [
-    { type: 'danger', msg: 'Danger.' },
-    { type: 'success', msg: 'Well done! ' }
-  ];
+    onionRepoService.getResponses().success(function (response) {
+        $scope.responsesList = response.results;
+    });
 
-  $scope.addAlert = function() {
-    $scope.alerts.push({msg: 'Another alert!'});
-  };
-
-  $scope.closeAlert = function(index) {
-    $scope.alerts.splice(index, 1);
-  };
 });
 
 
+
+
+
+//CONTROLLERS FOR THE VISUAL REPRESENTATION OF COMPONENTS.
 
 bootstrapModule.controller('TortazoCarousel', function ($scope) {
   $scope.slidesInterval = 3000;

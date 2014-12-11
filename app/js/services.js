@@ -41,3 +41,24 @@ tortazoApp.factory('botnetService', function($http) {
 
     return apiBotnet;
   });
+
+
+
+
+tortazoApp.factory('onionRepoService', function($http) {
+
+    var apiBotnet = {};
+    apiBotnet.getResponses = function() {
+      return $http({
+        url: 'http://127.0.0.1:8000/repository/responses/'
+      });
+    }
+
+    apiBotnet.getOnionRepoIncremental = function(nickname) {
+      return $http({
+        url: 'http://127.0.0.1:8000/repository/incremental/'
+      });
+    }
+
+    return apiBotnet;
+  });
