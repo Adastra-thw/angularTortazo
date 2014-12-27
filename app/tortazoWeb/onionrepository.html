@@ -1,0 +1,64 @@
+		<div ng-controller="onionRepoController">
+            <tabset>
+                <tab heading="Incremental">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Data from the Onion Repository in Incremental mode.</div>
+                            <table class="table table-bordered table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Partial Address</th>
+                                        <th>Valid Chars</th>
+                                        <th>Start</th>
+                                        <th>End</th>
+                                        <th>First Quartet</th>
+                                        <th>Second Quartet</th>
+                                        <th>Third Quartet</th>
+                                        <th>Fourth Quartet</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="incremental in incrementalList">
+                                        <td>{{incremental.partialonionaddress}}</td>
+                                        <td>{{incremental.validchars}}</td>
+                                        <td>{{incremental.startdate}}</td>
+                                        <td>{{incremental.enddate}}</td>
+                                        <td>{{incremental.progressfirstquartet}}</td>
+                                        <td>{{incremental.progresssecondquartet}}</td>
+                                        <td>{{incremental.progressthirdquartet}}</td>
+                                        <td>{{incremental.progressfourthquartet}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                     </div>
+
+
+
+                </tab>
+                <tab heading="Random">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Hidden Services Found.</div>
+                         <table class="table table-bordered table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Onion Address</th>
+                                        <th>Response Code</th>
+                                        <th>Headers</th>
+                                        <th>Description</th>
+                                        <th>Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="response in responsesList">
+                                        <td>{{response.onionaddress}}</td>
+                                        <td>{{response.responsecode}}</td>
+                                        <td><button popover={{response.responseheaders}} popover-trigger="mouseenter" class="btn btn-default">Response Headers</button></td>
+                                        <td>{{response.oniondescription}}</td>
+                                        <td>{{response.servicetype}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </tab>
+             </tabset>
+		</div>

@@ -1,0 +1,70 @@
+<div class="table-responsive" ng-controller="scansController">
+    <div class="panel panel-primary"><div class="panel-heading">Scans performed.</div>
+        <table class="table table-bordered table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Scan Number
+                    </th>
+                    <th>
+                        Scan Id.
+                    </th>
+                    <th>
+                        Scan Date
+                    </th>
+                    <th>
+                        Num. Relays
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="scan in scansList">
+                    <td>{{$index + 1}}</td>
+                    <td>{{scan.id}}</td>
+                    <td>{{scan.scandate}}</td>
+                    <td>
+                        <a ng-click="functionLoadRelays(scan.id)" ng-model="relaysList">{{ scan.numnodes +1 }}</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br />
+
+    <div class="table-responsive" ng-hide="!relaysList.length">
+        <div class="panel panel-primary"><div class="panel-heading">Relays found in the scan  {{ scanIdSelected }} .</div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Nickname.
+                        </th>
+                        <th>
+                            Fingerprint.
+                        </th>
+                        <th>
+                            Tor Version.
+                        </th>
+                        <th>
+                            Contact
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="relay in relaysList">
+                        <td>{{relay.nickname}}</td>
+                        <td>{{relay.fingerprint}}</td>
+                        <td>{{relay.torversion}}</td>
+                        <td>{{relay.contact}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+</div>
+
+<button class="btn btn-default" ng-click="open()">New Scan</button>
+<button class="btn btn-default" ng-click="open('lg')">New Scan</button>
+<button class="btn btn-default" ng-click="open('sm')">New Scan</button>
+<div ng-show="selected">Selection from a modal: {{ selected }}</div>
