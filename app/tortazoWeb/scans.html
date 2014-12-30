@@ -61,10 +61,9 @@
             </table>
         </div>
     </div>
+    <a class="btn btn-default" ng-click="open('lg')" href="#/analize">Analize</a>
+    <a class="btn btn-default" ng-click="open('lg')" href="#/Geolocalte">Geolocate</a>
+    <a class="btn btn-default" ng-click="open('lg', 'modals/newscanModal.html')">New Scan</a>
     <br />
 </div>
 
-<button class="btn btn-default" ng-click="open()">New Scan</button>
-<button class="btn btn-default" ng-click="open('lg')">New Scan</button>
-<button class="btn btn-default" ng-click="open('sm')">New Scan</button>
-<div ng-show="selected">Selection from a modal: {{ selected }}</div>

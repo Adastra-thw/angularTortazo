@@ -10,7 +10,9 @@ app.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.when('/scans', {
             templateUrl: 'scans.html',
-            controller: 'scansController'
+            controller: 'scansController',
+            animation: 'slide'
+
         }).
         when('/onionrepo', {
             templateUrl: 'onionrepository.html',

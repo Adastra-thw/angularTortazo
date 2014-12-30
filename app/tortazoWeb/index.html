@@ -1,6 +1,22 @@
 <!doctype html>
 <html ng-app="tortazoApp">
 <head>
+  <script>
+    function addImportLink(url) {
+      var link = document.createElement('link');
+      link.rel = 'import';
+      link.href = url;
+      link.onload = function(e) {
+        var post = this.import.querySelector('#blog-post');
+
+        var container = document.querySelector('#container');
+        container.appendChild(post.cloneNode(true));
+      };
+      document.head.appendChild(link);
+    }
+  </script>
+
+
   <meta charset="utf-8">
   <title>Tortazo Web - build v1.2</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,21 +98,13 @@
             <div ng-controller="MainModalController">
                 <script type="text/ng-template" id="templateModal.html">
                     <div class="modal-header">
-                        <h3 class="modal-title">I'm a modal!</h3>
+                        <h3 class="modal-title">Modal!</h3>
                     </div>
-                    <div class="modal-body">
-                        <!--<ul>
-                            <li ng-repeat="item in items">
-                                <a ng-click="selected.item = item">{{ item }}</a>
-                            </li>
-                        </ul>
-                        Selected: <b>{{ selected.item }}</b>
-                        
-                        http://panthersoftware.com/blog/2013/05/09/a-reusable-bootstrap-modal-form-directive/
-                        
-                        
-                        -->
-                    </div>
+                    <div class="modal-body" >
+                      <b>Holaaa: {{templateUrlModal}}</b>
+                      <ng-include src={{templateUrlModal}}></ng-include>
+                    </div
+                       
                     <div class="modal-footer">
                         <button class="btn btn-primary" ng-click="ok()">OK</button>
                         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>

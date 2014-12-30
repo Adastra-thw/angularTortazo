@@ -122,18 +122,18 @@ bootstrapModule.controller('IndexAccordion', function ($scope) {
 });
 
 bootstrapModule.controller('MainModalController', function ($scope, $modal, $log) {
-  //$scope.items = ['item1', 'item2', 'item3'];
-  $scope.open = function (size) {
+  $scope.open = function (size, templateUrlModal) {
+    console.log("MainModal");
+    $scope.templateUrlModal=templateUrlModal;
+    console.log($scope.templateUrlModal);
     var modalInstance = $modal.open({
       templateUrl: 'templateModal.html',
       controller: 'templateModalController',
-      size: size/*,
-      resolve: {
-        items: function () {
-          return $scope.items;
-        }
-      }*/
+      size: size
     });
+    modalInstance.templateUrlModal=templateUrlModal;
+    console.log("modal instance");
+    console.log(modalInstance.templateUrlModal);
 
     /*modalInstance.result.then(function (selectedItem) {
       //$scope.selected = selectedItem;
@@ -146,12 +146,11 @@ bootstrapModule.controller('MainModalController', function ($scope, $modal, $log
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
 
-bootstrapModule.controller('templateModalController', function ($scope, $modalInstance){ //, items) {
+bootstrapModule.controller('templateModalController', function ($scope, $modalInstance) {
+  console.log("TemplateModal");
+  console.log($modalInstance.templateUrlModal);
+  $scope.templateUrlModal = "'"+$modalInstance.templateUrlModal+"'";
 
-  /*$scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };*/
 
   $scope.ok = function () {
     //$modalInstance.close($scope.selected.item);
