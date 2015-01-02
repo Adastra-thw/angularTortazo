@@ -122,18 +122,13 @@ bootstrapModule.controller('IndexAccordion', function ($scope) {
 });
 
 bootstrapModule.controller('MainModalController', function ($scope, $modal, $log) {
-  $scope.open = function (size, templateUrlModal) {
-    console.log("MainModal");
-    $scope.templateUrlModal=templateUrlModal;
-    console.log($scope.templateUrlModal);
+  $scope.open = function (size, modalType) {
     var modalInstance = $modal.open({
       templateUrl: 'templateModal.html',
       controller: 'templateModalController',
       size: size
     });
-    modalInstance.templateUrlModal=templateUrlModal;
-    console.log("modal instance");
-    console.log(modalInstance.templateUrlModal);
+    modalInstance.modalType=modalType;
 
     /*modalInstance.result.then(function (selectedItem) {
       //$scope.selected = selectedItem;
@@ -147,13 +142,52 @@ bootstrapModule.controller('MainModalController', function ($scope, $modal, $log
 // It is not the same as the $modal service used above.
 
 bootstrapModule.controller('templateModalController', function ($scope, $modalInstance) {
-  console.log("TemplateModal");
-  console.log($modalInstance.templateUrlModal);
-  $scope.templateUrlModal = "'"+$modalInstance.templateUrlModal+"'";
-
+  $scope.modalType = $modalInstance.modalType;
+  $scope.showAnonimityModal = false;
+  $scope.showAboutTortazoModal = false;
+  $scope.showDevelopmentModal = false;
+  $scope.showDonateModal = false;
+  $scope.showAnalizeModal = false;
+  $scope.showGeolocateModal = false;
+  $scope.showNewScanModal = false;
+  
+  /**
+  TYPE      MODAL               VARIABLE
+    -----main menu----
+    1       Anonimity           showAnonimityModal      
+    2       About Tortazo       showAboutTortazoModal   
+    3       Development         showDevelopmentModal
+    4       Donate              showDonateModal
+    -----Scans----
+    5       Analize             showAnalizeModal           
+    6       Geolocate           showGeolocateModal
+    7       New Scan            showNewScanModal
+  */  
+  if($scope.modalType == 1){
+    $scope.showAnonimityModal = true;
+  }
+  if($scope.modalType == 2){
+    $scope.showAboutTortazoModal = true;
+  }
+  if($scope.modalType == 3){
+    $scope.showDevelopmentModal = true;
+  }
+  if($scope.modalType == 4){
+    $scope.showDonateModal = true;
+  }
+  if($scope.modalType == 5){
+    $scope.showAnalizeModal = true;
+  }
+  if($scope.modalType == 6){
+    $scope.showGeolocateModal = true;
+  }
+  if($scope.modalType == 7){
+    $scope.showNewScanModal = true;
+  }
+  
+  
 
   $scope.ok = function () {
-    //$modalInstance.close($scope.selected.item);
     $modalInstance.close();
   };
 
@@ -161,3 +195,21 @@ bootstrapModule.controller('templateModalController', function ($scope, $modalIn
     $modalInstance.dismiss('cancel');
   };
 });
+
+bootstrapModule.controller('MainMenuController', function ($scope, $modal, $log) {
+  $scope.open = function (size, modalType) {
+    var modalInstance = $modal.open({
+      templateUrl: 'templateModal.html',
+      controller: 'templateModalController',
+      size: size
+    });
+    modalInstance.modalType=modalType;
+  };
+});
+
+tortazoControllers.controller('LangController', ['$translate', '$scope', function ($translate, $scope) {  
+    $scope.changeLanguage = function (langKey) {
+      $scope.currentLang = langKey;
+      $translate.use(langKey);
+    };
+}]);

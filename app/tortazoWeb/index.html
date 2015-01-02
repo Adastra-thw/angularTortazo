@@ -1,22 +1,6 @@
 <!doctype html>
 <html ng-app="tortazoApp">
 <head>
-  <script>
-    function addImportLink(url) {
-      var link = document.createElement('link');
-      link.rel = 'import';
-      link.href = url;
-      link.onload = function(e) {
-        var post = this.import.querySelector('#blog-post');
-
-        var container = document.querySelector('#container');
-        container.appendChild(post.cloneNode(true));
-      };
-      document.head.appendChild(link);
-    }
-  </script>
-
-
   <meta charset="utf-8">
   <title>Tortazo Web - build v1.2</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +13,6 @@
 	<!--append ‘#!watch’ to the browser URL, then refresh the page. -->
     
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../css/style.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -44,46 +27,49 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.min.js"></script>
     <script src="../js-core/ui-bootstrap-0.11.2.min.js"></script>
     <script src="../js-core/ui-bootstrap-tpls-0.11.2.min.js"></script>
-    <script src="../js-core/angular-gettext.min.js"></script>
+    <script src="../js-core/angular-translate.min.js"></script>
     <link rel="stylesheet" href="../app.css">
 
 </head>
 
-<body>
-<header class="navbar navbar-default navbar-static-top" role="banner">
+<body ng-controller="MainModalController">
+
+<header class="navbar navbar-default navbar-static-top">
   <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
-      <a href="/" class="navbar-brand">Bootply</a>
-    </div>
-    <nav class="collapse navbar-collapse" role="navigation">
-      <ul class="nav navbar-nav">
-        <li>
-          <a href="#">Get Started</a>
-        </li>
-        <li>
-          <a href="#">Edit</a>
-        </li>
-        <li>
-          <a href="#">Visualize</a>
-        </li>
-        <li>
-          <a href="#">Prototype</a>
-        </li>
-      </ul>
-    </nav>
+        </button>
+        <a href="/" class="navbar-brand">Home</a>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a class="navbar-brand" ng-click="open('lg', 1, 'Home/Anonimato')">{{'Anonymity_Menu' | translate}}</a>
+                </li>
+                <li>
+                    <a class="navbar-brand" ng-click="open('lg', 2, 'Home/About Tortazo')">{{'About_Menu' | translate}}</a>
+                </li>
+                <li>
+                    <a class="navbar-brand" ng-click="open('lg', 3, 'Home/Development')">Development</a>
+                </li>
+                <li>
+                  <a class="navbar-brand" ng-click="open('lg', 4, 'Home/Donate')">Donate</a>
+                </li>
+                
+            </ul>
+        </nav>  
+  
+
   </div>
 </header>
 
 <div class="container">
 	<div class="row">
-  			<div class="col-md-3" id="leftCol">
-
+    		<div class="col-md-3" id="leftCol">
 				<div class="well">
               	<ul class="nav nav-stacked" id="sidebar">
                   <li><a href="#/scans">Scans</a></li>
@@ -95,15 +81,21 @@
   				</div>
 
       		</div>
-            <div ng-controller="MainModalController">
+            <div>
                 <script type="text/ng-template" id="templateModal.html">
                     <div class="modal-header">
-                        <h3 class="modal-title">Modal!</h3>
+                        <h3 class="modal-title">TORTAZO_LOGO</h3>
                     </div>
-                    <div class="modal-body" >
-                      <b>Holaaa: {{templateUrlModal}}</b>
-                      <ng-include src={{templateUrlModal}}></ng-include>
-                    </div
+                    <div class="modal-body">
+    
+                      <ng-include ng_show="{{showAnonimityModal}}" src="'modals/menu/anonModal.html'"></ng-include>
+                      <ng-include ng_show="{{showAboutTortazoModal}}" src="'modals/menu/aboutTortazoModal.html'"></ng-include>
+                      <ng-include ng_show="{{showDevelopmentModal}}" src="'modals/menu/developmentModal.html'"></ng-include>
+                      <ng-include ng_show="{{showDonateModal}}" src="'modals/menu/donateModal.html'"></ng-include>
+                      <ng-include ng_show="{{showAnalizeModal}}" src="'modals/analizeModal.html'"></ng-include>                      
+                      <ng-include ng_show="{{showGeolocateModal}}" src="'modals/geolocateModal.html'"></ng-include>
+                      <ng-include ng_show="{{showNewScanModal}}" src="'modals/newscanModal.html'"></ng-include>                      
+                    </div>
                        
                     <div class="modal-footer">
                         <button class="btn btn-primary" ng-click="ok()">OK</button>
