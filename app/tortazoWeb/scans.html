@@ -1,19 +1,19 @@
 <div class="table-responsive" ng-controller="scansController">
-    <div class="panel panel-primary"><div class="panel-heading">Scans performed.</div>
+    <div class="panel panel-primary"><div class="panel-heading">{{'Scans_HeaderText' | translate}}</div>
         <table class="table table-bordered table-hover table-bordered">
             <thead>
                 <tr>
                     <th>
-                        Scan Number
+                        {{'Scans_ScanNumber' | translate}}
                     </th>
                     <th>
-                        Scan Id.
+                        {{'Scans_ScanId' | translate}}
                     </th>
                     <th>
-                        Scan Date
+                        {{'Scans_ScanDate' | translate }}
                     </th>
                     <th>
-                        Num. Relays
+                        {{'Scans_NumRelays' | translate }}
                     </th>
                 </tr>
             </thead>
@@ -32,21 +32,21 @@
     <br />
 
     <div class="table-responsive" ng-hide="!relaysList.length">
-        <div class="panel panel-primary"><div class="panel-heading">Relays found in the scan  {{ scanIdSelected }} .</div>
+        <div class="panel panel-primary"><div class="panel-heading">{{'Scans_RelaysFound' | translate}}  {{ scanIdSelected }} .</div>
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
-                            Nickname.
+                            {{'Scans_RelayNickname' | translate }}
                         </th>
                         <th>
-                            Fingerprint.
+                            {{'Scans_RelayFingerprint' | translate }}
                         </th>
                         <th>
-                            Tor Version.
+                            {{'Scans_RelayTORVersion' | translate }}
                         </th>
                         <th>
-                            Contact
+                            {{'Scans_RelayContact' | translate }}
                         </th>
                     </tr>
                 </thead>
@@ -61,9 +61,9 @@
             </table>
         </div>
     </div>
-    <a class="btn btn-default" ng-click="open('lg', 5, 'Scans/Analize Relay')">Analize</a>
-    <a class="btn btn-default" ng-click="open('lg', 6, 'Scans/Geolocate Relays')">Geolocate selected relays</a>
-    <a class="btn btn-default" ng-click="open('lg', 7, 'Scans/Perform New Scan')">New Scan</a>
+    <a class="btn btn-default" ng-click="open('lg', 5, 'Scans/Analize Relay')">{{'Analize_Button' | translate }}</a>
+    <a class="btn btn-default" ng-click="open('lg', 6, 'Scans/Geolocate Relays')">{{'GeolocateRelays_Button' | translate}}</a>
+    <a class="btn btn-default" ng-click="open('lg', 7, 'Scans/Perform New Scan')">{{'NewScan_Button' | translate }}</a>
     <br />
 </div>
 

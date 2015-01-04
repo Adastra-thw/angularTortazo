@@ -1,19 +1,19 @@
 <div ng-controller="onionRepoController">
     <tabset>
-        <tab heading="Incremental">
+        <tab heading="{{'OnionRepo_Incremental' | translate}}">
             <div class="panel panel-primary">
-                <div class="panel-heading">Data from the Onion Repository in Incremental mode.</div>
+                <div class="panel-heading">{{'OnionRepo_HeaderTextIncremental' | translate}}</div>
                     <table class="table table-bordered table-hover table-bordered">
                         <thead>
                         <tr>
-                            <th>Partial Address</th>
-                            <th>Valid Chars</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>First Quartet</th>
-                            <th>Second Quartet</th>
-                            <th>Third Quartet</th>
-                            <th>Fourth Quartet</th>
+                            <th>{{'OnionRepo_PartialAddress' | translate}}</th>
+                            <th>{{'OnionRepo_ValidChars' | translate}}</th>
+                            <th>{{'OnionRepo_Start' | translate}}</th>
+                            <th>{{'OnionRepo_End' | translate}}</th>
+                            <th>{{'OnionRepo_FirstQuartet' | translate}}</th>
+                            <th>{{'OnionRepo_SecondQuartet' | translate}}</th>
+                            <th>{{'OnionRepo_ThirdQuartet' | translate}}</th>
+                            <th>{{'OnionRepo_FourthQuartet' | translate}}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -32,24 +32,24 @@
             </div>
         </tab>
         
-        <tab heading="Random">
+        <tab heading="{{'OnionRepo_Random' | translate}}">
             <div class="panel panel-primary">
-                <div class="panel-heading">Hidden Services Found.</div>
+                <div class="panel-heading">{{'OnionRepo_HeaderTextRandom' | translate}}</div>
                 <table class="table table-bordered table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>Onion Address</th>
-                            <th>Response Code</th>
-                            <th>Headers</th>
-                            <th>Description</th>
-                            <th>Type</th>
+                            <th>{{'OnionRepo_OnionAddress' | translate}}</th>
+                            <th>{{'OnionRepo_ResponseCode' | translate}}</th>
+                            <th>{{'OnionRepo_Headers' | translate}}</th>
+                            <th>{{'OnionRepo_Description' | translate}}</th>
+                            <th>{{'OnionRepo_Type' | translate}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="response in responsesList">
                             <td>{{response.onionaddress}}</td>
                             <td>{{response.responsecode}}</td>
-                            <td><button popover={{response.responseheaders}} popover-trigger="mouseenter" class="btn btn-default">Response Headers</button></td>
+                            <td><button popover={{response.responseheaders}} popover-trigger="mouseenter" class="btn btn-default">{{'OnionRepo_Headers' | translate}}</button></td>
                             <td>{{response.oniondescription}}</td>
                             <td>{{response.servicetype}}</td>
                         </tr>

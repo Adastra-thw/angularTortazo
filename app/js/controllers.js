@@ -1,7 +1,6 @@
 var tortazoControllers = angular.module('tortazoApp.controllers', [])
 var bootstrapModule = angular.module('tortazoApp.ui', ['ui.bootstrap']);
 
-
 tortazoControllers.controller('scansController', function($scope, scansService) {
     $scope.scansList = [];
     $scope.relaysList = [];
@@ -66,59 +65,134 @@ tortazoControllers.controller('onionRepoController', function($scope, onionRepoS
 
 //CONTROLLERS FOR THE VISUAL REPRESENTATION OF COMPONENTS.
 
-bootstrapModule.controller('TortazoCarousel', function ($scope) {
-  $scope.slidesInterval = 3000;
-  var slides = $scope.slides = [];
-  slides.push({
-      image: 'img/carousel/tortazo_scan.png',
-      text: 'Gather Information Mode  -  Gather information about the exit relays in the TOR network.'
-    });
-
-  slides.push({
-      image: 'img/carousel/tortazo_onionrepo.png',
-      text: 'Onion Repository Mode  -  Used to discover hidden services.'
-    });
-
-  slides.push({
-      image: 'img/carousel/tortazo_plugins.png',
-      text: 'Plugin architecture  -  Execute plugins from the interpreter to perform audits against hidden services in TOR.'
-    });
-});
-
-
-bootstrapModule.controller('IndexAccordion', function ($scope) {
+bootstrapModule.controller('IndexController', function ($scope, $translate) {
   $scope.oneAtATime = true;
+  $scope.isCollapsed = false;
+  $scope.groups = [];
+  $scope.basicInfo = [];
 
-  $scope.groups = [
-    {
-      title: 'Gather Information.',
-      content: 'This is the simplest mode of execution in Tortazo. In this mode, Tortazo will perform an Nmap scan and the results for every exit node in the Directory Authorities or in the local TOR instance will be stored in the local database used by Tortazo.',
-      urlLink: '/tortazoWeb/#scans',
-      textLink: 'Check the gathered data in this Tortazo instance!'
-    },
-    {
-      title: 'Onion Repository.',
-      content: 'Tortazo will try to generate ONION addresses and then tests if the generated addresses point to a hidden service in the deep web',
-      urlLink: '/tortazoWeb/#onionrepo',
-      textLink: 'Check the Onion Repository data in this Tortazo instance!'
-    },
-    {
-      title: 'Botnet Mode.',
-      content: 'In this mode, Tortazo will read the file "TORTAZO_DIR/tortazo_botnet.bot" to create the bots in the context of the botnet. You can run parallel commands against the entirely botnet or exclude bots to run the commands just over some machines.',
-      urlLink: '/tortazoWeb/#botnet',
-      textLink: 'Check the botnet data in this Tortazo instance!'
-    },
-    {
-      title: 'FAQ.',
-      content: 'Run Tortazo, test it and if you have any doubt check the FAQs page.',
-      urlLink: 'http://tortazo.readthedocs.org/en/latest/faqs.html',
-      textLink: 'Check the FAQs!'
-    }
-  ];
-  $scope.status = {
-    isFirstOpen: true,
-    isFirstDisabled: false
+  $scope.loadCarousel = function() {
+    $scope.slidesInterval = 3000;
+    var slides = $scope.slides = [];
+    
+    $translate(['Carousel_Image1', 'Carousel_Image2', 'Carousel_Image3']).then(function (translations) {
+      slides.push({
+        image: 'img/carousel/tortazo_scan.png',
+        text: translations.Carousel_Image1
+      });
+
+    slides.push({
+        image: 'img/carousel/tortazo_onionrepo.png',
+        text: translations.Carousel_Image2
+      });
+
+    slides.push({
+        image: 'img/carousel/tortazo_plugins.png',
+        text: translations.Carousel_Image3
+      });
+    });
   };
+
+  $scope.loadMenus = function() {
+    $scope.groups = [];
+    $scope.basicInfo = [];
+    $translate(['AccordionActions_GatherInformationHeader', 'AccordionActions_GatherInformationText']).then(function (translations) {
+      var gatherInfo = {
+                    title: translations.AccordionActions_GatherInformationHeader,
+                    content: translations.AccordionActions_GatherInformationText,
+                    urlLink: '/tortazoWeb/#scans',
+                    textLink: translations.AccordionActions_GatherInformationHeader
+      };
+      $scope.groups.push(gatherInfo);
+    });
+
+    $translate(['AccordionActions_OnionRepositoryHeader', 'AccordionActions_OnionRepositoryText']).then(function (translations) {
+      var onion = {
+                    title: translations.AccordionActions_OnionRepositoryHeader,
+                    content: translations.AccordionActions_OnionRepositoryText,
+                    urlLink: '/tortazoWeb/#onionrepo',
+                    textLink: translations.AccordionActions_OnionRepositoryHeader
+      };
+      $scope.groups.push(onion);
+    });
+
+    $translate(['AccordionActions_BotnetHeader', 'AccordionActions_BotnetText']).then(function (translations) {
+      var botnet = {
+                    title: translations.AccordionActions_BotnetHeader,
+                    content: translations.AccordionActions_BotnetText,
+                    urlLink: '/tortazoWeb/#botnet',
+                    textLink: translations.AccordionActions_BotnetHeader
+      };
+      $scope.groups.push(botnet);
+    });
+
+    $translate(['AccordionActions_PluginsHeader', 'AccordionActions_PluginsText']).then(function (translations) {
+      var plugins = {
+                    title: translations.AccordionActions_PluginsHeader,
+                    content: translations.AccordionActions_PluginsText,
+                    urlLink: '/tortazoWeb/#botnet',
+                    textLink: translations.AccordionActions_PluginsHeader
+      };
+      $scope.groups.push(plugins);
+    });
+
+    $translate(['AccordionInfo_AboutTortazoHeader', 'AccordionInfo_AboutTortazoText']).then(function (translations) {
+      var about = {
+                    title: translations.AccordionInfo_AboutTortazoHeader,
+                    content: translations.AccordionInfo_AboutTortazoText,
+                    urlLink: 'https://github.com/Adastra-thw/Tortazo/',
+                    textLink: "GitHub"
+      };
+      $scope.basicInfo.push(about);
+    });
+    $translate(['AccordionInfo_InstallationSupportHeader', 'AccordionInfo_InstallationSupportText']).then(function (translations) {
+      var installationSupport = {
+                    title: translations.AccordionInfo_InstallationSupportHeader,
+                    content: translations.AccordionInfo_InstallationSupportText,
+                    urlLink: "http://tortazo.readthedocs.org/en/latest/",
+                    textLink: "Read The Docs"
+      };
+      $scope.basicInfo.push(installationSupport);
+    });  
+    $translate(['AccordionInfo_EditionsHeader', 'AccordionInfo_EditionsText']).then(function (translations) {
+      var editions = {
+                    title: translations.AccordionInfo_EditionsHeader,
+                    content: translations.AccordionInfo_EditionsText,
+                    urlLink: '#',
+                    textLink: translations.AccordionInfo_EditionsHeader
+      };
+      $scope.basicInfo.push(editions);
+    });
+    $translate(['AccordionInfo_HelpContactHeader', 'AccordionInfo_HelpContactText']).then(function (translations) {
+      var help = {
+                    title: translations.AccordionInfo_HelpContactHeader,
+                    content: translations.AccordionInfo_HelpContactText,
+                    urlLink: 'http://tortazo.readthedocs.org/en/latest/gentle_introduction.html?highlight=contact#contact',
+                    textLink: translations.AccordionInfo_HelpContactHeader
+      };
+      $scope.basicInfo.push(help);
+    });
+
+    $translate(['AccordionInfo_FAQHeader', 'AccordionInfo_FAQText']).then(function (translations) {
+      var help = {
+                    title: translations.AccordionInfo_FAQHeader,
+                    content: translations.AccordionInfo_FAQText,
+                    urlLink: 'http://tortazo.readthedocs.org/en/latest/faqs.html',
+                    textLink: translations.AccordionInfo_FAQHeader
+      };
+      $scope.basicInfo.push(help);
+    });
+  }
+
+  $scope.changeLanguage = function (langKey) {
+    $translate.use(langKey);
+    $scope.loadCarousel();
+    $scope.loadMenus();
+  };
+
+  $scope.loadCarousel();
+  $scope.loadMenus();
+
 });
 
 bootstrapModule.controller('MainModalController', function ($scope, $modal, $log) {
@@ -129,12 +203,6 @@ bootstrapModule.controller('MainModalController', function ($scope, $modal, $log
       size: size
     });
     modalInstance.modalType=modalType;
-
-    /*modalInstance.result.then(function (selectedItem) {
-      //$scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });*/
   };
 });
 
@@ -206,10 +274,3 @@ bootstrapModule.controller('MainMenuController', function ($scope, $modal, $log)
     modalInstance.modalType=modalType;
   };
 });
-
-tortazoControllers.controller('LangController', ['$translate', '$scope', function ($translate, $scope) {  
-    $scope.changeLanguage = function (langKey) {
-      $scope.currentLang = langKey;
-      $translate.use(langKey);
-    };
-}]);

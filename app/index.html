@@ -2,7 +2,7 @@
 <html ng-app="tortazoApp">
 <head>
   <meta charset="utf-8">
-  <title>Tortazo - Audit framework for TOR</title>
+  <title>{{'PageTitle' | translate }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Tortazo Web">
   <meta name="author" content="Adastra">
@@ -27,6 +27,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-cookies.js"></script>
     <script src="js-core/ui-bootstrap-0.11.2.min.js"></script>
     <script src="js-core/ui-bootstrap-tpls-0.11.2.min.js"></script>
     <script src="js-core/angular-translate.min.js"></script>
@@ -42,7 +43,7 @@
 
 
 
-<div class="container" ng-controller="LangController">
+<div class="container" ng-controller="IndexController">
   <div class="row clearfix">
 		<div class="col-md-12 column">
 			<div class="page-header">
@@ -58,7 +59,7 @@
 		</div>
 	</div>
 
-    <div ng-controller="TortazoCarousel">
+    <div>
       <div>
         <carousel interval="slidesInterval">
           <slide ng-repeat="slide in slides" active="slide.active">
@@ -78,27 +79,28 @@
 	<div class="row clearfix">
         <div class="col-md-6 column">
             <div class="jumbotron">
-                <h2>
+              <h2>
                 <b>{{ 'Header1_Title' | translate }}</b>
-                </h2>
-                <p>
-                    {{ 'Header1_Text' | translate }}
-                </p>
-                <a class="btn btn-primary btn-large" href="https://github.com/Adastra-thw/Tortazo/">GitHub</a>
-                <a class="btn btn-primary btn-large" href="http://tortazo.readthedocs.org/en/latest/">Read The Docs</a>
-                <a class="btn btn-primary btn-large" href="http://tortazo.readthedocs.org/en/latest/gentle_introduction.html?highlight=contact#contact">{{'contact' | translate }}</a>
+              </h2>
+
+              <accordion close-others="oneAtATime">
+                <accordion-group heading="{{basic.title}}" ng-repeat="basic in basicInfo">
+                  <p>{{  basic.content }}</p>
+                  <a class="btn btn-primary btn-large" href={{basic.urlLink}}>{{basic.textLink}}</a>
+                </accordion-group>
+              </accordion>
             </div>
         </div>
 
         <div class="col-md-6 column">
-            <div class="jumbotron" ng-controller="IndexAccordion">
+            <div class="jumbotron">
               <h2>
                 <b>{{'Check_Title' | translate}}</b>
               </h2>
 
               <accordion close-others="oneAtATime">
                 <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
-                  {{group.content}}
+                  <p>{{group.content}}</p>
                   <a class="btn btn-primary btn-large" href={{group.urlLink}}>{{group.textLink}}</a>
                 </accordion-group>
               </accordion>

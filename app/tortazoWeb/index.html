@@ -2,7 +2,7 @@
 <html ng-app="tortazoApp">
 <head>
   <meta charset="utf-8">
-  <title>Tortazo Web - build v1.2</title>
+  <title>{{'PageTitle' | translate }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Tortazo Web">
   <meta name="author" content="Adastra">
@@ -25,9 +25,12 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-cookies.js"></script>
     <script src="../js-core/ui-bootstrap-0.11.2.min.js"></script>
     <script src="../js-core/ui-bootstrap-tpls-0.11.2.min.js"></script>
     <script src="../js-core/angular-translate.min.js"></script>
+    <script src="../js-core/angular-translate-storage-local.js"></script>
+    <script src="../js-core/angular-translate-storage-cookie.js"></script>    
     <link rel="stylesheet" href="../app.css">
 
 </head>
@@ -54,10 +57,10 @@
                     <a class="navbar-brand" ng-click="open('lg', 2, 'Home/About Tortazo')">{{'About_Menu' | translate}}</a>
                 </li>
                 <li>
-                    <a class="navbar-brand" ng-click="open('lg', 3, 'Home/Development')">Development</a>
+                    <a class="navbar-brand" ng-click="open('lg', 3, 'Home/Development')">{{'Development_Menu' | translate}}</a>
                 </li>
                 <li>
-                  <a class="navbar-brand" ng-click="open('lg', 4, 'Home/Donate')">Donate</a>
+                  <a class="navbar-brand" ng-click="open('lg', 4, 'Home/Donate')">{{'Donate_Menu' | translate}}</a>
                 </li>
                 
             </ul>
@@ -72,11 +75,11 @@
     		<div class="col-md-3" id="leftCol">
 				<div class="well">
               	<ul class="nav nav-stacked" id="sidebar">
-                  <li><a href="#/scans">Scans</a></li>
-                  <li><a href="#/onionrepo">Onion Repository</a></li>
-                  <li><a href="#/botnet">Botnet</a></li>
-                  <li><a href="#/plugins">Plugins Information</a></li>
-                  <li><a href="#/torState">Current state of TOR (Exit Nodes)</a></li>
+                  <li><a href="#/scans">{{'Scans_Menu' | translate}}</a></li>
+                  <li><a href="#/onionrepo">{{'OnionRepo_Menu' | translate}}</a></li>
+                  <li><a href="#/botnet">{{'Botnet_Menu' | translate}}</a></li>
+                  <li><a href="#/plugins">{{'Plugins_Menu' | translate}}</a></li>
+                  <li><a href="#/torState">{{'TORState_Menu' | translate}}</a></li>
               	</ul>
   				</div>
 
@@ -98,8 +101,8 @@
                     </div>
                        
                     <div class="modal-footer">
-                        <button class="btn btn-primary" ng-click="ok()">OK</button>
-                        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                        <button class="btn btn-primary" ng-click="ok()">{{'Ok_Button' | translate}}</button>
+                        <button class="btn btn-warning" ng-click="cancel()">{{'Cancel_Button' | translate}}</button>
                     </div>
                 </script>            
                 <div class="col-md-9">
