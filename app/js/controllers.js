@@ -4,20 +4,97 @@ var bootstrapModule = angular.module('tortazoApp.ui', ['ui.bootstrap']);
 tortazoControllers.controller('scansController', function($scope, scansService) {
     $scope.scansList = [];
     $scope.relaysList = [];
+    $scope.selectedRelays = [];
+    $scope.isCollapsedModes = true;
+    $scope.isCollapsedPlugins = true;
+    $scope.isCollapsedKiddies = true;
+    $scope.relaySelected = null;
 
-    /**
-    * Functions for "scans.html"
-    */
-    scansService.getScans().success(function (response) {
+    $scope.isAnalizeRelayDisabled = true;
+    $scope.isGeolocateRelaysDisabled = true;
+
+    //Variables for Scans pagination.
+    $scope.currentPageScans = 1;
+    $scope.totalItemsScans = 0;
+
+    //Variables for Relays pagination.
+    $scope.currentPageRelays = 1;
+    $scope.totalItemsRelays = 0;
+
+    //Number of items per page.
+    $scope.itemsPerPage=10;
+
+    scansService.getScans($scope.currentPageScans).success(function (response) {
+        $scope.totalItemsScans = response.count;
         $scope.scansList = response.results;
     });
 
+    $scope.pageChangedScans = function() {
+      scansService.getScans($scope.currentPageScans).success(function (response) {
+        $scope.totalItemsScans = response.count;
+        $scope.scansList = response.results;
+      });
+    };
+
+
     $scope.functionLoadRelays = function(scanId) {
           $scope.scanIdSelected = scanId
-          scansService.getRelays(scanId).success(function (response) {
-               $scope.relaysList = response.results;
+          scansService.getRelays(scanId, $scope.currentPageRelays).success(function (response) {
+              $scope.totalItemsRelays = response.count;
+              $scope.relaysList = response.results;
+              for (relay in $scope.relaysList) {
+                $scope.relaysList[relay].checkedRelay = false;
+              }
           });
     };
+
+    $scope.pageChangedRelays = function() {
+      $scope.functionLoadRelays($scope.scanIdSelected)
+    };    
+
+
+    //Selection of relays.
+    $scope.selectRelay = function() {
+
+      itemsSelected = 0;
+
+      for (relay in $scope.relaysList) {
+        if($scope.relaysList[relay].checkedRelay == true) {
+          itemsSelected += 1;
+        }
+      }
+
+
+      if(itemsSelected == 1) {
+        $scope.isAnalizeRelayDisabled = false;
+        $scope.isGeolocateRelaysDisabled = false;
+      }
+      if(itemsSelected > 1) {
+        $scope.isAnalizeRelayDisabled = true;
+        $scope.isGeolocateRelaysDisabled = false;
+      }  
+
+      if(itemsSelected == 0) {
+        $scope.isAnalizeRelayDisabled = true;
+        $scope.isGeolocateRelaysDisabled = true;
+      }  
+      /*
+      for (relay in $scope.relaysList) {
+        if($scope.relaysList[relay].checkedRelay == true) {
+          console.log($scope.relaysList[relay]);
+        }
+      }
+      */
+    };
+  
+    $scope.setDetailRelay = function(relay) {
+      $scope.relaySelected = relay;    
+    }  
+    
+    $scope.mensaje = function() {
+      $scope.relayIdSelected = relayId;
+      console.log($scope.relayIdSelected);
+    }      
 
 })
 
@@ -59,7 +136,9 @@ tortazoControllers.controller('onionRepoController', function($scope, onionRepoS
 
 });
 
+tortazoControllers.controller('pluginsController', function($scope, pluginsService) {
 
+});
 
 
 
@@ -130,7 +209,7 @@ bootstrapModule.controller('IndexController', function ($scope, $translate) {
       var plugins = {
                     title: translations.AccordionActions_PluginsHeader,
                     content: translations.AccordionActions_PluginsText,
-                    urlLink: '/tortazoWeb/#botnet',
+                    urlLink: '/tortazoWeb/#plugins',
                     textLink: translations.AccordionActions_PluginsHeader
       };
       $scope.groups.push(plugins);
@@ -196,21 +275,26 @@ bootstrapModule.controller('IndexController', function ($scope, $translate) {
 });
 
 bootstrapModule.controller('MainModalController', function ($scope, $modal, $log) {
-  $scope.open = function (size, modalType) {
+  $scope.open = function (size, modalType, trace, sharedParameter) {
     var modalInstance = $modal.open({
       templateUrl: 'templateModal.html',
       controller: 'templateModalController',
       size: size
     });
     modalInstance.modalType=modalType;
+    modalInstance.trace=trace;
+    //sharedParameter is used to pass parameters (any kind of object) to the modal that will be opened.
+    modalInstance.sharedParameter=sharedParameter;
   };
 });
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
 
-bootstrapModule.controller('templateModalController', function ($scope, $modalInstance) {
+bootstrapModule.controller('templateModalController', function ($scope, $modalInstance, $translate) {
   $scope.modalType = $modalInstance.modalType;
+  $scope.trace = $modalInstance.trace;
+  $scope.sharedParameter = $modalInstance.sharedParameter;
   $scope.showAnonimityModal = false;
   $scope.showAboutTortazoModal = false;
   $scope.showDevelopmentModal = false;
@@ -218,6 +302,11 @@ bootstrapModule.controller('templateModalController', function ($scope, $modalIn
   $scope.showAnalizeModal = false;
   $scope.showGeolocateModal = false;
   $scope.showNewScanModal = false;
+  
+  $translate([$modalInstance.trace]).then(function (translations) {
+      $scope.trace = translations[$modalInstance.trace];
+    });
+
   
   /**
   TYPE      MODAL               VARIABLE
@@ -230,6 +319,11 @@ bootstrapModule.controller('templateModalController', function ($scope, $modalIn
     5       Analize             showAnalizeModal           
     6       Geolocate           showGeolocateModal
     7       New Scan            showNewScanModal
+    -----Menu----
+    8       Help Menu           showHelpMenuModal
+    9       PRO Edition         showProEditionMenuModal    
+    -----Others----
+    10      Detail Relay        showDetailRelayModal
   */  
   if($scope.modalType == 1){
     $scope.showAnonimityModal = true;
@@ -252,6 +346,15 @@ bootstrapModule.controller('templateModalController', function ($scope, $modalIn
   if($scope.modalType == 7){
     $scope.showNewScanModal = true;
   }
+  if($scope.modalType == 8){
+    $scope.showHelpMenuModal = true;
+  }
+  if($scope.modalType == 9){
+    $scope.showProEditionMenuModal = true;
+  }  
+  if($scope.modalType == 10){
+    $scope.showDetailRelayModal = true;
+  }  
   
   
 
@@ -264,7 +367,7 @@ bootstrapModule.controller('templateModalController', function ($scope, $modalIn
   };
 });
 
-bootstrapModule.controller('MainMenuController', function ($scope, $modal, $log) {
+/*bootstrapModule.controller('MainMenuController', function ($scope, $modal, $log) {
   $scope.open = function (size, modalType) {
     var modalInstance = $modal.open({
       templateUrl: 'templateModal.html',
@@ -273,4 +376,4 @@ bootstrapModule.controller('MainMenuController', function ($scope, $modal, $log)
     });
     modalInstance.modalType=modalType;
   };
-});
+});*/

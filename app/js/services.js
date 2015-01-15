@@ -3,16 +3,16 @@ var tortazoApp = angular.module('tortazoApp.services' , []);
 tortazoApp.factory('scansService', function($http) {
 
     var apiScans = {};
-    apiScans.getScans = function() {
+    apiScans.getScans = function(page) {
       return $http({
-        url: 'http://127.0.0.1:8000/scans'
+        url: 'http://127.0.0.1:8000/scans?page='+page
       });
     }
 
 
-    apiScans.getRelays = function(scanId) {
+    apiScans.getRelays = function(scanId, page) {
       return $http({
-        url: 'http://127.0.0.1:8000/scan/torNodeData/?scanid='+scanId
+        url: 'http://127.0.0.1:8000/scan/torNodeData/?scanid='+scanId+"&page="+page
       });
     }
     return apiScans;

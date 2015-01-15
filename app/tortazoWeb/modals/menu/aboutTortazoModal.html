@@ -1,11 +1,43 @@
 <div class="table-responsive" ng-controller="scansController">
     <div class="panel panel-primary"><div class="panel-heading">{{'ModalMenu_AboutTortazo_HeaderText' | translate}}</div>
-        <ul>
-            <li>{{'ModalMenu_AboutTortazo_Privacy' | translate}}</li>
-            <li>{{'ModalMenu_AboutTortazo_Legal' | translate}}</li>        
-            <li>{{'ModalMenu_AboutTortazo_GeneralDocs' | translate}}</li>                
-            <li>{{'ModalMenu_AboutTortazo_TechnicalDocs' | translate}}</li>                
-            <li>{{'ModalMenu_AboutTortazo_Hacking' | translate}}</li>                            
+        <ul >  
+            <li>
+                <div>
+                    <a ng-click="isCollapsedModes = !isCollapsedModes">{{'ModalMenu_Anonimity_Operation' | translate}}</a>
+                    <div collapse="isCollapsedModes">
+                            <div class="well well-lg">{{'TortazoModes_Text' | translate}}
+                                <br />
+                                <p>
+                                    <a class="btn btn-primary btn-large" href="http://tortazo.readthedocs.org/en/latest/getting_started.html#usage-of-tortazo-execution-modes" target="__blank">{{'ModalMenu_Anonimity_Operation' | translate}}</a>
+                                </p>
+                            </div> 
+                    </div>
+                </div>
+            </li>      
+            <li>
+                <div>
+                    <a ng-click="isCollapsedPlugins = !isCollapsedPlugins">{{'ModalMenu_Anonimity_Plugins' | translate}}</a>
+                    <div collapse="isCollapsedPlugins">
+                            <div class="well well-lg">{{'TortazoPlugins_Text' | translate}}
+                                <br />
+                                <p>
+                                    <a class="btn btn-primary btn-large" href="http://tortazo.readthedocs.org/en/latest/plugins.html#plugins-management-label" target="__blank">
+                                        {{'ModalMenu_Anonimity_Plugins' | translate}}
+                                    </a>
+                                </p>
+                            </div> 
+                    </div>
+                </div>
+            </li>               
+            <li>
+            	<div>
+            		<a ng-click="isCollapsedKiddies = !isCollapsedKiddies">{{'ModalMenu_Anonimity_Kiddies' | translate}}</a>
+            		<div collapse="isCollapsedKiddies">
+            				<div class="well well-lg">{{'ModalAboutTortazo_AntiScriptContent' | translate}}</div> 
+            		</div>
+            	</div>
+            </li>
+       
         </ul>
     </div>
     <br />

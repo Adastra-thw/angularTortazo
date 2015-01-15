@@ -39,6 +39,11 @@ var en_Translation = {
   'Botnet_Menu' : "Botnet",
   'Plugins_Menu' : "Plugins",
   'TORState_Menu' : "Current state of TOR Network (Exit Nodes)",
+  'Help_Menu' : "Help",
+  'PRO_Menu' : "Get PRO version",
+
+  'Help_Text' : "If you have any questions or problems running Tortazo, please read the official documentation. If no answer to your problems in the documentation, please read the FAQs. If you don't get to solve it using the FAQs, you can contact me.",  
+  'PRO_Text' : 'The community edition contains basic functions for "Smack", but the professional version contains features that are strictly professional use and not available to the general public. Please contact us for more information about purchasing the professional version of the tool.',
 
   'Ok_Button' : 'Ok',
   'Cancel_Button' : 'Cancel', 
@@ -47,7 +52,7 @@ var en_Translation = {
   'NewScan_Button' : 'New Scan', 
   
   'Scans_HeaderText' : 'Scans performed.',
-  'Scans_RelaysFound' : 'Relays found in the scan: ',
+  'Scans_RelaysFound' : 'Relays found in the scan with identifier: ',
   'Scans_ScanNumber' : "Scan Number",
   'Scans_ScanId' : "Scan Id",
   'Scans_ScanDate' : "Scan Date",
@@ -56,6 +61,7 @@ var en_Translation = {
   'Scans_RelayFingerprint' : "Fingerprint",
   'Scans_RelayTORVersion' : "TOR Version",
   'Scans_RelayContact' : "Contact",
+  'Scans_OS' : "OS",  
   
   'Botnet_HeaderText' : 'Bots registered in Database.',
   'Botnet_Address' : 'Address',
@@ -87,19 +93,50 @@ var en_Translation = {
   'ModalMenu_AboutTortazo_Privacy' : 'Privacy',
   'ModalMenu_AboutTortazo_Legal' : 'Legal',
   'ModalMenu_AboutTortazo_GeneralDocs' : 'General Documentation',
-  'ModalMenu_AboutTortazo_TechnicalDocs' : 'Technical Documentation',
-  'ModalMenu_AboutTortazo_Hacking' : 'Hacking',
-  'ModalMenu_Anonimity_HeaderText' : 'Anonymity',
+  'ModalMenu_AboutTortazo_TechnicalDocs' : 'Technical Documentation and Projects',
+  'ModalMenu_Anonimity_HeaderText' : 'About TOR',
   'ModalMenu_Anonimity_Operation' : 'Operative Modes',
   'ModalMenu_Anonimity_Plugins' : 'Plugins',
   'ModalMenu_Anonimity_Kiddies' : 'Anti-script kiddies',
 
   'ModalMenu_Development_HeaderText' : 'Development',  
-  'ModalMenu_Donations_HeaderText' : 'Dontations!'  
+  'ModalMenu_Donations_HeaderText' : 'Dontations!',
+  'ModalMenu_Help_HeaderText' : 'Help',
+  'ModalMenu_PRO_HeaderText' : 'PRO Edition',
+
+  'ModalAboutTortazo_ExecutionModesContent' : '',
+  'ModalAboutTortazo_PluginsContent' : '',
+  'ModalAboutTortazo_AntiScriptContent' : "Tortazo, over all things is 'Anti-Script Kiddies'. It's not desirable that some children online harass volunteer network relays. That would be a really bad use of this tool. This framework is for professional usage and for Python Hackers. Due this, the installation process is not very detailed and there is some configuration settings that any Python Hacker with time and a little research will learn quickly.",
+  'TortazoModes_Text' : 'There are four execution modes in the current version of Tortazo, each allows gathering information from the TOR network and performing attacks against relays and hidden services. You can read more about this in the official documentation',
+  'TortazoPlugins_Text' : 'The plugins in Tortazo are the best way to integrate external routines written in Python directly in the framework, allowing to any Python developer write his own tools to perform audits against hidden services and TOR relays',
+  'TortazoDevelopment_Text' : 'If you want to contribute to the development of this Framework you can do this in many ways and one of them is proposing ideas of development or the implementation of new plugins. Your contributions are very valuable, especially if accompanied by code.',
+  'TortazoDevelopmentPlugins_Text' : 'Plugins development', 
+  'TortazoDonations_Text' : "There's another ways to contribute, the donations are one of them. If you want to support the development of Tortazo, you could donate some money. Thank you!",
+
+  'ModalTrace_Anonymity' : 'Home/Anonymity',
+  'ModalTrace_AboutTortazo' : 'Home/About Tortazo',
+  'ModalTrace_Development' : 'Home/Development',
+  'ModalTrace_Donate' : 'Home/Donate',
+  'ModalTrace_PROEdition' : 'Home/PRO Edition',
+  'ModalTrace_Help' : 'Home/Help',
+
+  'ModalTrace_AnalizeScan' : 'Home/Analize Relay',
+  'ModalTrace_GeoLocateRelays' : 'Home/Geolocate Relays',
+  'ModalTrace_NewScan' : 'Home/New Scan', 
+
+  'ModalTrace_DetailRelay' : "Home/Scans/Relay's Detail", 
+
+  'RelayDetail_Address' : "IP", 
+  'RelayDetail_State' : "State", 
+  'RelayDetail_Reason' : "Reason", 
+  'RelayDetail_Nickname' : "Nickname", 
+  'RelayDetail_Fingerprint' : "Fingerprint", 
+  'RelayDetail_OS' : "OS", 
+  "RelayDetail_Header" : "Details about the relay: "
 }
 
 var es_Translation = {
-  'PageTitle' : 'Interfaz web  de Tortazo - contrucción v1.2',
+  'PageTitle' : 'Interfaz web  de Tortazo - construcción v1.2',
   'Project_Title' : 'Proyecto Tortazo',
   'Project_SubTitle' : 'Framework de auditoría y ataque para TOR',
   'Header1_Title' : 'Tortazo para Hackers de Python!',
@@ -109,7 +146,7 @@ var es_Translation = {
   'Carousel_Image2':"Modo repositorio Onion   -   Utilizado para descubrir servicios ocultos.",
   'Carousel_Image3':"Arquitectura de Plugins  -  Ejecutar plugins desde el interprete para ejecutar auditorias contra servicios ocultos en TOR.",
 
-  'AccordionInfo_AboutTortazoHeader' : "Sobre Tortazo", 
+  'AccordionInfo_AboutTortazoHeader' : "Acerca de Tortazo", 
   'AccordionInfo_InstallationSupportHeader' : "Instalación/Soporte", 
   'AccordionInfo_EditionsHeader' : "Ediciones", 
   'AccordionInfo_HelpContactHeader' : "Ayuda/Contacto", 
@@ -130,8 +167,8 @@ var es_Translation = {
   'AccordionActions_PluginsText' : "Ejecuta los plugins disponibles en Tortazo contra repetidores y servicios ocultos en la red de TOR.",
 
   'Check_Title' : "Prueba las funcionalidades de Tortazo!",
-  'Anonymity_Menu' : "Anonimato",
-  'About_Menu' : "Sobre Tortazo",
+  'Anonymity_Menu' : "TOR",
+  'About_Menu' : "Tortazo",
   'Development_Menu' : "Desarrollo",
   'Donate_Menu' : "Donaciones",
   'Scans_Menu' : "Escaneos",
@@ -139,6 +176,11 @@ var es_Translation = {
   'Botnet_Menu' : "Botnet",
   'Plugins_Menu' : 'Plugins',
   'TORState_Menu' : "Estado actual de la red TOR (Repetidores de salida)",
+  'Help_Menu' : "Ayuda",
+  'PRO_Menu' : "Obtener versión PRO",
+
+  'Help_Text' : 'Si tienes cualquier duda o problema ejecutando Tortazo, por favor lee la documentación oficial. Si en la documentación no hay respuesta a tu problema, lee las FAQs. Si en las FAQs tampoco consigues resolverlo, puedes contactarme.',
+  'PRO_Text' : 'La versión comunitaria contiene las funcionalidades básicas de Tortazo, pero la versión profesional contiene caracteristicas que son de uso estrictamente profesional y que no se encuentran disponibles para el público general. Por favor, contacta con nosotros para más información sobre cómo adquirir la versión profesional de la herramienta.',
   
   'Ok_Button' : 'Aceptar',
   'Cancel_Button' : 'Cancelar', 
@@ -147,7 +189,7 @@ var es_Translation = {
   'NewScan_Button' : 'Nuevo Escaneo',   
   
   'Scans_HeaderText' : 'Escaneos ejecutados.',
-  'Scans_RelaysFound' : 'Repetidores encontrados en el escaneo: ',
+  'Scans_RelaysFound' : 'Repetidores encontrados en el escaneo con identificador: ',
   'Scans_ScanNumber' : "Número escaneo",
   'Scans_ScanId' : "Identificador escaneo",
   'Scans_ScanDate' : "Fecha Escaneo",
@@ -156,6 +198,7 @@ var es_Translation = {
   'Scans_RelayFingerprint' : "Huella",
   'Scans_RelayTORVersion' : "Versión de TOR",
   'Scans_RelayContact' : "Contacto",
+  'Scans_OS' : "OS",  
   
   'Botnet_HeaderText' : 'Máquinas registradas en base de datos.',
   'Botnet_Address' : 'Dirección',
@@ -183,19 +226,50 @@ var es_Translation = {
   'OnionRepo_Description' : 'Descripción', 
   'OnionRepo_Type' : 'Tipo',
   
-  'ModalMenu_AboutTortazo_HeaderText' : 'Sobre Tortazo',
+  'ModalMenu_AboutTortazo_HeaderText' : 'Acerca de Tortazo',
   'ModalMenu_AboutTortazo_Privacy' : 'Privacidad',
   'ModalMenu_AboutTortazo_Legal' : 'Legalidad',
   'ModalMenu_AboutTortazo_GeneralDocs' : 'Documentación general',
-  'ModalMenu_AboutTortazo_TechnicalDocs' : 'Documentación tecnica',
-  'ModalMenu_AboutTortazo_Hacking' : 'Hacking',
-  'ModalMenu_Anonimity_HeaderText' : 'Anonimato',
+  'ModalMenu_AboutTortazo_TechnicalDocs' : 'Documentación tecnica y Proyectos',
+  'ModalMenu_Anonimity_HeaderText' : 'Acerca de TOR',
   'ModalMenu_Anonimity_Operation' : 'Modos de Operación',
   'ModalMenu_Anonimity_Plugins' : 'Plugins',
   'ModalMenu_Anonimity_Kiddies' : 'Anti-script kiddies',  
   
   'ModalMenu_Development_HeaderText' : 'Desarrollo',  
-  'ModalMenu_Donations_HeaderText' : 'Donaciones!'
+  'ModalMenu_Donations_HeaderText' : 'Donaciones!',
+  'ModalMenu_Help_HeaderText' : 'Ayuda',
+  'ModalMenu_PRO_HeaderText' : 'Edición Profesional',  
+
+  'ModalAboutTortazo_ExecutionModesContent' : '',
+  'ModalAboutTortazo_PluginsContent' : '',
+  'ModalAboutTortazo_AntiScriptContent' : "Tortazo, sobre todo es 'Anti-Script Kiddies'. No es deseable que algunos niños en Internet usen Tortazo para fastidiar repetidores en la red de TOR. Eso representaria un mal uso de esta herramienta. Este framework es para uso profesional y especialmente dedicado a Hackers de Python. Debido a esto, el proceso de instalación no es demasiado detallado, no hay scripts de arranque automático y no se explican algunos detalles de configuración que cualquier Hacker de Python con tiempo y un poco de investigación podrá aprender rápidamente.",
+  'TortazoModes_Text' : 'Hay cuatro modos de ejecución en la versión actual del Tortazo, cada uno permite la recopilación de información de la red TOR y la realización de ataques contra los relés y los servicios ocultos. Puede leer más sobre esto en la documentación oficial',
+  'TortazoPlugins_Text' : 'Los plugins de Tortazo son la mejor forma de integrar en el framework cualquier rutina externa escrita en Python, lo que permite a cualquier desarrollador escribir sus propias herramientas para realizar auditorías contra los servicios ocultos y repetidores de TOR',
+  'TortazoDevelopment_Text' : 'Si quieres contribuir con el desarrollo de este Framework puedes hacerlo de muchas formas y una de ellas es proponiendo ideas de desarrollo o la implementación de nuevos plugins. Tus aportes son muy valiosos, especialmente si vienen acompañados de código',
+  'TortazoDevelopmentPlugins_Text' : 'Desarrollo de Plugins', 
+  'TortazoDonations_Text' : "Hay otras maneras de contribuir, las donaciones son una de ellas. Si desea apoyar el desarrollo de Tortazo, podría donar algo de dinero. Gracias!",
+
+  'ModalTrace_Anonymity' : 'Home/Anonimato',
+  'ModalTrace_AboutTortazo' : 'Home/Sobre Tortazo',
+  'ModalTrace_Development' : 'Home/Desarrollo',
+  'ModalTrace_Donate' : 'Home/Donaciones',
+  'ModalTrace_PROEdition' : 'Home/Edición Profesional',
+  'ModalTrace_Help' : 'Home/Ayuda',
+
+  'ModalTrace_AnalizeScan' : 'Home/Analizar Repetidor',
+  'ModalTrace_GeoLocateRelays' : 'Home/Geolocalizar Repetidores',
+  'ModalTrace_NewScan' : 'Home/Nuevo Escaneo', 
+
+  'ModalTrace_DetailRelay' : "Home/Escaneos/Detalle de repetidor.",
+
+  'RelayDetail_Address' : "Dirección IP", 
+  'RelayDetail_State' : "Estado", 
+  'RelayDetail_Reason' : "Causa", 
+  'RelayDetail_Nickname' : "Etiqueta", 
+  'RelayDetail_Fingerprint' : "Huella", 
+  'RelayDetail_OS' : "Sistema Operativo", 
+  "RelayDetail_Header" : "Detalles sobre el repetidor: "
 }
 
 var app = angular.module('tortazoApp', [
@@ -236,6 +310,10 @@ app.config(['$routeProvider', '$translateProvider',
         when('/botnet', {
             templateUrl: 'botnet.html',
             controller: 'botnetController'
+        }).
+        when('/plugins', {
+            templateUrl: 'plugins.html',
+            controller: 'pluginsController'
         }).
         otherwise({
             redirectTo: '/'

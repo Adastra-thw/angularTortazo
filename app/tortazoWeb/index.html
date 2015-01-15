@@ -2,6 +2,7 @@
 <html ng-app="tortazoApp">
 <head>
   <meta charset="utf-8">
+  <link rel="shortcut icon" href="../img/tortazo.ico" />
   <title>{{'PageTitle' | translate }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Tortazo Web">
@@ -12,7 +13,7 @@
 	<!--script src="js/less-1.3.3.min.js"></script-->
 	<!--append ‘#!watch’ to the browser URL, then refresh the page. -->
     
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../css/style.css" rel="stylesheet">
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -39,35 +40,24 @@
 
 <header class="navbar navbar-default navbar-static-top">
   <div class="container">
-        <div class="navbar-header">
-        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        </button>
-        <a href="/" class="navbar-brand">Home</a>
-        </div>
         <nav class="collapse navbar-collapse" role="navigation">
+            <a href="/" class="navbar-brand">Home</a>
             <ul class="nav navbar-nav">
                 <li>
-                    <a class="navbar-brand" ng-click="open('lg', 1, 'Home/Anonimato')">{{'Anonymity_Menu' | translate}}</a>
+                    <a class="navbar-brand" ng-click="open('lg', 1, 'ModalTrace_Anonymity')">{{'Anonymity_Menu' | translate}}</a>
                 </li>
                 <li>
-                    <a class="navbar-brand" ng-click="open('lg', 2, 'Home/About Tortazo')">{{'About_Menu' | translate}}</a>
+                    <a class="navbar-brand" ng-click="open('lg', 2, 'ModalTrace_AboutTortazo')">{{'About_Menu' | translate}}</a>
                 </li>
                 <li>
-                    <a class="navbar-brand" ng-click="open('lg', 3, 'Home/Development')">{{'Development_Menu' | translate}}</a>
+                    <a class="navbar-brand" ng-click="open('lg', 3, 'ModalTrace_Development')">{{'Development_Menu' | translate}}</a>
                 </li>
                 <li>
-                  <a class="navbar-brand" ng-click="open('lg', 4, 'Home/Donate')">{{'Donate_Menu' | translate}}</a>
+                  <a class="navbar-brand" ng-click="open('lg', 4, 'ModalTrace_Donate')">{{'Donate_Menu' | translate}}</a>
                 </li>
-                
             </ul>
         </nav>  
-  
-
-  </div>
+    </div>
 </header>
 
 <div class="container">
@@ -75,11 +65,49 @@
     		<div class="col-md-3" id="leftCol">
 				<div class="well">
               	<ul class="nav nav-stacked" id="sidebar">
-                  <li><a href="#/scans">{{'Scans_Menu' | translate}}</a></li>
-                  <li><a href="#/onionrepo">{{'OnionRepo_Menu' | translate}}</a></li>
-                  <li><a href="#/botnet">{{'Botnet_Menu' | translate}}</a></li>
-                  <li><a href="#/plugins">{{'Plugins_Menu' | translate}}</a></li>
-                  <li><a href="#/torState">{{'TORState_Menu' | translate}}</a></li>
+                  <li>
+                      <a href="#/scans">
+                        <img src="../img/tortazo-small-icon.png" width="30" height="35" />
+                        <b>{{'Scans_Menu' | translate}}</b>
+                      </a>  
+
+                  </li>
+                  <li>
+                      <a href="#/onionrepo">
+                        <img src="../img/tortazo-small-icon.png" width="30" height="35" /> 
+                        <b>{{'OnionRepo_Menu' | translate}}</b>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#/botnet">
+                        <img src="../img/tortazo-small-icon.png" width="30" height="35" />  
+                        <b>{{'Botnet_Menu' | translate}}</b>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#/plugins">
+                        <img src="../img/tortazo-small-icon.png" width="30" height="35" />  
+                        <b>{{'Plugins_Menu' | translate}}</b>
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#/torState">
+                        <img src="../img/tortazo-small-icon.png" width="30" height="35" />  
+                        <b>{{'TORState_Menu' | translate}}</b>
+                      </a>
+                  </li>
+                  <li>
+                      <a ng-click="open('lg', 8, 'ModalTrace_Help')">
+                        <img src="../img/tortazo-small-icon.png" width="30" height="35" />  
+                        <b>{{'Help_Menu' | translate}}</b>
+                      </a>
+                  </li>
+                  <li>
+                      <a ng-click="open('lg', 9, 'ModalTrace_PROEdition')">
+                        <img src="../img/tortazo-small-icon.png" width="30" height="35" />  
+                        <b>{{'PRO_Menu' | translate}}</b>
+                      </a>
+                  </li>
               	</ul>
   				</div>
 
@@ -87,7 +115,10 @@
             <div>
                 <script type="text/ng-template" id="templateModal.html">
                     <div class="modal-header">
-                        <h3 class="modal-title">TORTAZO_LOGO</h3>
+                        <h4 class="modal-title">
+                          <img src="../img/tortazo-small-icon.png" />
+                          <div align="right"><b>{{trace}}</b></div>
+                        </h4>                        
                     </div>
                     <div class="modal-body">
     
@@ -95,17 +126,22 @@
                       <ng-include ng_show="{{showAboutTortazoModal}}" src="'modals/menu/aboutTortazoModal.html'"></ng-include>
                       <ng-include ng_show="{{showDevelopmentModal}}" src="'modals/menu/developmentModal.html'"></ng-include>
                       <ng-include ng_show="{{showDonateModal}}" src="'modals/menu/donateModal.html'"></ng-include>
+                      <ng-include ng_show="{{showHelpMenuModal}}" src="'modals/menu/helpModal.html'"></ng-include> 
+                      <ng-include ng_show="{{showProEditionMenuModal}}" src="'modals/menu/proEditionModal.html'"></ng-include>                       
+
                       <ng-include ng_show="{{showAnalizeModal}}" src="'modals/analizeModal.html'"></ng-include>                      
                       <ng-include ng_show="{{showGeolocateModal}}" src="'modals/geolocateModal.html'"></ng-include>
-                      <ng-include ng_show="{{showNewScanModal}}" src="'modals/newscanModal.html'"></ng-include>                      
+                      <ng-include ng_show="{{showNewScanModal}}" src="'modals/newscanModal.html'"></ng-include>         
+                      <ng-include ng_show="{{showDetailRelayModal}}" src="'modals/detailRelayModal.html'"></ng-include>         
+                                   
                     </div>
                        
                     <div class="modal-footer">
                         <button class="btn btn-primary" ng-click="ok()">{{'Ok_Button' | translate}}</button>
-                        <button class="btn btn-warning" ng-click="cancel()">{{'Cancel_Button' | translate}}</button>
                     </div>
                 </script>            
                 <div class="col-md-9">
+                    <div align="right"><img src="../img/tortazo-header-medium.png" /></div>
                     <div ng-view></div>
                 </div>
             </div>

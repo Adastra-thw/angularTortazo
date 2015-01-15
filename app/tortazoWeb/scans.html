@@ -4,9 +4,6 @@
             <thead>
                 <tr>
                     <th>
-                        {{'Scans_ScanNumber' | translate}}
-                    </th>
-                    <th>
                         {{'Scans_ScanId' | translate}}
                     </th>
                     <th>
@@ -19,15 +16,24 @@
             </thead>
             <tbody>
                 <tr ng-repeat="scan in scansList">
-                    <td>{{$index + 1}}</td>
                     <td>{{scan.id}}</td>
                     <td>{{scan.scandate}}</td>
                     <td>
-                        <a ng-click="functionLoadRelays(scan.id)" ng-model="relaysList">{{ scan.numnodes +1 }}</a>
+                        <a ng-click="functionLoadRelays(scan.id)" ng-model="relaysList">{{ scan.numnodes }}</a>
                     </td>
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div style="display: table;margin: 0 auto;">
+        <pagination total-items="totalItemsScans"
+                    ng-model="currentPageScans" 
+                    class="pagination-sm" 
+                    boundary-links="true" 
+                    rotate="false" 
+                    items-per-page="itemsPerPage" 
+                    ng-change="pageChangedScans()">
+        </pagination>
     </div>
     <br />
 
@@ -36,6 +42,8 @@
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
+                        <th>
+                            
                         <th>
                             {{'Scans_RelayNickname' | translate }}
                         </th>
@@ -46,24 +54,39 @@
                             {{'Scans_RelayTORVersion' | translate }}
                         </th>
                         <th>
-                            {{'Scans_RelayContact' | translate }}
+                            {{'Scans_OS' | translate }}
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="relay in relaysList">
-                        <td>{{relay.nickname}}</td>
+                        <td><input type="checkbox" ng-model="relay.checkedRelay" ng-click="selectRelay()"/></td>
+                        <td><a ng-click="setDetailRelay(relay);open('lg', 10, 'ModalTrace_DetailRelay', relay)">{{relay.nickname}}</a></td>
                         <td>{{relay.fingerprint}}</td>
                         <td>{{relay.torversion}}</td>
-                        <td>{{relay.contact}}</td>
+                        <td>{{relay.operative_system}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
-    <a class="btn btn-default" ng-click="open('lg', 5, 'Scans/Analize Relay')">{{'Analize_Button' | translate }}</a>
-    <a class="btn btn-default" ng-click="open('lg', 6, 'Scans/Geolocate Relays')">{{'GeolocateRelays_Button' | translate}}</a>
-    <a class="btn btn-default" ng-click="open('lg', 7, 'Scans/Perform New Scan')">{{'NewScan_Button' | translate }}</a>
+        <div style="display: table;margin: 0 auto;">
+            <pagination total-items="totalItemsRelays"
+                        ng-model="currentPageRelays" 
+                        class="pagination-sm" 
+                        boundary-links="true" 
+                        rotate="false" 
+                        items-per-page="itemsPerPage" 
+                        ng-change="pageChangedRelays()">
+            </pagination>
+        </div>        
+    </div> 
+    <a class="btn btn-default" ng-disabled="isAnalizeRelayDisabled" ng-click="open('lg', 5, 'ModalTrace_AnalizeScan')">{{'Analize_Button' | translate }}</a>
+    <a class="btn btn-default" ng-disabled="isGeolocateRelaysDisabled" ng-click="open('lg', 6, 'ModalTrace_GeoLocateRelays')">
+        <span class="glyphicon glyphicon-flag" aria-hidden="false">
+            {{'GeolocateRelays_Button' | translate}}
+        </span>
+    </a>
+    <a class="btn btn-default" ng-click="open('lg', 7, 'ModalTrace_NewScan')">{{'NewScan_Button' | translate }}</a>
     <br />
 </div>
 
