@@ -1,51 +1,182 @@
-<div class="table-responsive" ng-controller="scansController">
+<div class="table-responsive" ng-controller="relaysController" ng-init="loadPorts(sharedParameter.id)">
 	<div class="panel panel-primary"><div class="panel-heading">{{'RelayDetail_Header' | translate}} <b>{{sharedParameter.nickname}}</b></div>
 	<p>
-	<form class="form-horizontal">
-	  <div class="form-group">
-	    <label class="col-sm-4 control-label">{{'RelayDetail_Address' | translate}}</label>
-	    <div class="col-sm-40">
-	    <input type="text"ng-disabled="true" placeholder="{{sharedParameter.host}}">
-	    </div>
-	  </div> 
-	  <div class="form-group">
-	    <label class="col-sm-4 control-label">{{'RelayDetail_State' | translate}}</label>
-	    <div class="col-sm-40">
-	    <input type="text"ng-disabled="true" placeholder="{{sharedParameter.state}}">
-	    </div>
-	  </div>
-	  <div class="form-group">
-	    <label class="col-sm-4 control-label">{{'RelayDetail_Reason' | translate}}</label>
-	    <div class="col-sm-40">
-	    <input type="text"ng-disabled="true" placeholder="{{sharedParameter.reason}}">
-	    </div>
-	  </div>
-	  <div class="form-group">
-	    <label class="col-sm-4 control-label">{{'RelayDetail_Nickname' | translate}}</label>
-	    <div class="col-sm-40">
-	    <textarea ng-disabled="true" rows="3" cols="50" placeholder="{{sharedParameter.nickname}}"></textarea>
-	    </div>
-	  </div>
-	  <div class="form-group">
-	    <label class="col-sm-4 control-label">{{'RelayDetail_Fingerprint' | translate}}</label>
-	    <div class="col-sm-40">
-	    <textarea ng-disabled="true" rows="3" cols="50" placeholder="{{sharedParameter.fingerprint}}"></textarea>
-	    </div>
-	  </div>
-	  <div class="form-group">
-	    <label class="col-sm-4 control-label">{{'contact' | translate}}</label>
-	    <div class="col-sm-40">
-	    <textarea ng-disabled="true" rows="3" cols="50" placeholder="{{sharedParameter.contact}}"></textarea>
-	    </div>
-	  </div>		
-	  <div class="form-group">
-	    <label class="col-sm-4 control-label">{{'RelayDetail_OS' | translate}}</label>
-	    <div class="col-sm-40">
-	    <input type="text"ng-disabled="true" placeholder="{{sharedParameter.operative_system}}">
-	    </div>
-	  </div>		    
-	</form>
+
+
+
+<div class="row-fluid">
+<form>
+    <div class="span12">
+        <div class="well clearfix">
+        	<table width="100%" align="center">
+        		<tr>
+		            <div class="span5">
+	                <legend>{{'RelayDetail_RelayInfo' | translate}}</legend> 
+		            <td>
+		                    <table width="100%" align="center">
+		                        <tr>
+		                            <td>
+		                                <label class="col-sm-4 control-label">{{'RelayDetail_Address' | translate}}</label>
+		                            </td>
+		                            <td>        
+		                            	<input type="text" ng-disabled="true" placeholder="{{sharedParameter.host}}" size=60>
+		                            </td>                       
+		                        </tr>           
+		                        <tr>
+		                            <td>
+		                                <label class="col-sm-4 control-label">{{'RelayDetail_State' | translate}}</label>
+		                            </td>
+		                            <td>        
+		                                <input type="text"ng-disabled="true" placeholder="{{sharedParameter.state}}">
+		                            </td>                       
+		                        </tr>
+		                        <tr>
+		                            <td>
+		                                <label class="col-sm-4 control-label">{{'RelayDetail_Reason' | translate}}</label>
+		                            </td>
+		                            <td>        
+		                                <input type="text"ng-disabled="true" placeholder="{{sharedParameter.reason}}">
+		                            </td>                       
+		                        </tr>
+		                        <tr>
+		                            <td>
+		                                <label class="col-sm-4 control-label">{{'RelayDetail_OS' | translate}}</label>
+		                            </td>
+		                            <td>        
+		                                <input type="text"ng-disabled="true" placeholder="{{sharedParameter.operative_system}}">
+		                            </td>                       
+		                        </tr>                                                
+		                    </table>
+		            </td>
+		            <td>
+		                <table width="100%" align="center">
+	                        <tr>
+	                            <td>
+	                                <label class="col-sm-4 control-label">{{'RelayDetail_Nickname' | translate}}</label>
+	                            </td>
+	                            <td>        
+	                            	<div class="col-sm-40">
+	                            		<textarea ng-disabled="true" rows="3" cols="50" placeholder="{{sharedParameter.nickname}}"></textarea>
+									</div>
+	                            </td>                       
+	                        </tr>           
+	                        <tr>
+	                            <td>
+	                                <label class="col-sm-4 control-label">{{'RelayDetail_Fingerprint' | translate}}</label>
+	                            </td>
+	                            <td>        
+	                                <div class="col-sm-40">
+			    						<textarea ng-disabled="true" rows="3" cols="50" placeholder="{{sharedParameter.fingerprint}}"></textarea>
+			    					</div>
+	                            </td>                       
+	                        </tr>
+	                        <tr>
+	                            <td>
+	                                <label class="col-sm-4 control-label">{{'contact' | translate}}</label>
+	                            </td>
+	                            <td>        
+									<div class="col-sm-40">
+								    	<textarea ng-disabled="true" rows="3" cols="50" placeholder="{{sharedParameter.contact}}"></textarea>
+								    </div>
+	                            </td>                       
+	                        </tr>
+	                    </table>
+	                </td>
+	            	</div>
+		        </tr>
+	        </table>
+        </div>
+    </div>
+</form>
+</div>
 	</p>
-	</div>
+
+<legend>{{'RelayDetail_PortsInfo' | translate}}</legend> 
+
+	<tabset>
+        <tab heading="Open ports">
+            <div class="panel panel-primary">
+                <div class="panel-heading">{{'RelayDetail_DetailLabel' | translate}}</div>
+					<table class="table table-bordered table-hover table-bordered">
+			            <thead>
+			                <tr>
+			                    <th>
+			                        {{'RelayDetail_Reason' | translate}}
+			                    </th>
+			                    <th>
+			                        {{'RelayDetail_Port' | translate}}
+			                    </th>
+			                    <th>
+			                        {{'RelayDetail_ServiceName' | translate}}
+			                    </th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <tr ng-repeat="openPort in openList">
+			                    <td>{{openPort.reason}}</td>
+			                    <td>{{openPort.port}}</td>
+			                    <td>{{openPort.name}}</td>
+			                </tr>
+			            </tbody>
+			        </table>
+			</div>
+		</tab>
+		<tab heading="Closed ports">
+            <div class="panel panel-primary">
+                <div class="panel-heading">{{'RelayDetail_DetailLabel' | translate}}</div>
+					<table class="table table-bordered table-hover table-bordered">
+			            <thead>
+			                 <tr>
+			                    <th>
+			                        {{'RelayDetail_Reason' | translate}}
+			                    </th>
+			                    <th>
+			                        {{'RelayDetail_Port' | translate}}
+			                    </th>
+			                    <th>
+			                        {{'RelayDetail_ServiceName' | translate}}
+			                    </th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <tr ng-repeat="closedPort in closedList">
+			                    <td>{{closedPort.reason}}</td>
+			                    <td>{{closedPort.port}}</td>
+			                    <td>{{closedPort.name}}</td>
+			                </tr>
+			            </tbody>
+			        </table> 
+			</div>		
+		</tab>
+
+		<tab heading="Filtered ports">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Details</div>
+					<table class="table table-bordered table-hover table-bordered">
+			            <thead>
+			                <tr>
+			                    <th>
+			                        {{'RelayDetail_Reason' | translate}}
+			                    </th>
+			                    <th>
+			                        {{'RelayDetail_Port' | translate}}
+			                    </th>
+			                    <th>
+			                        {{'RelayDetail_ServiceName' | translate}}
+			                    </th>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <tr ng-repeat="filteredPort in filteredList">
+			                    <td>{{filteredPort.reason}}</td>
+			                    <td>{{filteredPort.port}}</td>
+			                    <td>{{filteredPort.name}}</td>
+			                </tr>
+			            </tbody>
+			        </table>    
+			        
+			</div>		
+		</tab>
+	</tabset>
 
 </div>

@@ -59,9 +59,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="relay in relaysList">
+                    <tr ng-repeat="relay in relaysList" ng-controller="relaysController">
                         <td><input type="checkbox" ng-model="relay.checkedRelay" ng-click="selectRelay()"/></td>
-                        <td><a ng-click="setDetailRelay(relay);open('lg', 10, 'ModalTrace_DetailRelay', relay)">{{relay.nickname}}</a></td>
+                        <td><a ng-click="setDetailRelay(relay);open('large-dialog', 10, 'ModalTrace_DetailRelay', relay)">{{relay.nickname}}</a></td>
                         <td>{{relay.fingerprint}}</td>
                         <td>{{relay.torversion}}</td>
                         <td>{{relay.operative_system}}</td>

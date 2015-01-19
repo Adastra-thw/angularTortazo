@@ -9,6 +9,7 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
     $scope.isCollapsedPlugins = true;
     $scope.isCollapsedKiddies = true;
     $scope.relaySelected = null;
+    $scope.relaySelectedInPages=[];
 
     $scope.isAnalizeRelayDisabled = true;
     $scope.isGeolocateRelaysDisabled = true;
@@ -39,6 +40,8 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
 
     $scope.functionLoadRelays = function(scanId) {
           $scope.scanIdSelected = scanId
+          $scope.currentPageRelays = 1;
+          $scope.relaySelectedInPages = [];
           scansService.getRelays(scanId, $scope.currentPageRelays).success(function (response) {
               $scope.totalItemsRelays = response.count;
               $scope.relaysList = response.results;
@@ -49,32 +52,53 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
     };
 
     $scope.pageChangedRelays = function() {
-      $scope.functionLoadRelays($scope.scanIdSelected)
+      scansService.getRelays($scope.scanIdSelected, $scope.currentPageRelays).success(function (response) {
+        $scope.totalItemsRelays = response.count;
+        $scope.relaysList = response.results;
+        for (relay in $scope.relaysList) {
+          $scope.relaysList[relay].checkedRelay = false;
+          for(idRelaySelected in $scope.relaySelectedInPages) {
+            if($scope.relaySelectedInPages[idRelaySelected] == $scope.relaysList[relay].id) {
+              $scope.relaysList[relay].checkedRelay = true;                            
+            }
+          }          
+        }
+      });
     };    
 
 
     //Selection of relays.
     $scope.selectRelay = function() {
-
       itemsSelected = 0;
-
       for (relay in $scope.relaysList) {
         if($scope.relaysList[relay].checkedRelay == true) {
-          itemsSelected += 1;
+          if($scope.relaySelectedInPages.indexOf($scope.relaysList[relay].id) == -1){
+            //console.log("ADD: "+$scope.relaysList[relay].id);
+            $scope.relaySelectedInPages.push($scope.relaysList[relay].id);
+          }
+        } else {
+          if($scope.relaySelectedInPages.indexOf($scope.relaysList[relay].id) != -1){
+            index = $scope.relaySelectedInPages.indexOf($scope.relaysList[relay].id);
+            if(index > -1){
+              $scope.relaySelectedInPages.splice(index, 1);
+              //console.log("REMOVE: "+$scope.relaysList[relay].id);
+              //console.log($scope.relaySelectedInPages);
+            }
+          }
         }
       }
 
 
-      if(itemsSelected == 1) {
+      if($scope.relaySelectedInPages.length == 1) {
         $scope.isAnalizeRelayDisabled = false;
         $scope.isGeolocateRelaysDisabled = false;
       }
-      if(itemsSelected > 1) {
+      if($scope.relaySelectedInPages.length > 1) {
         $scope.isAnalizeRelayDisabled = true;
         $scope.isGeolocateRelaysDisabled = false;
       }  
 
-      if(itemsSelected == 0) {
+      if($scope.relaySelectedInPages.length == 0) {
         $scope.isAnalizeRelayDisabled = true;
         $scope.isGeolocateRelaysDisabled = true;
       }  
@@ -86,17 +110,48 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
       }
       */
     };
-  
+   
+});
+
+tortazoControllers.controller('relaysController', function($scope, relaysService) {
+    $scope.openList = [];
+    $scope.closedList = [];
+    $scope.filteredList = [];
+    $scope.page_size = 50;
+
     $scope.setDetailRelay = function(relay) {
       $scope.relaySelected = relay;    
     }  
     
-    $scope.mensaje = function() {
-      $scope.relayIdSelected = relayId;
-      console.log($scope.relayIdSelected);
-    }      
 
-})
+    $scope.loadOpenPorts = function(relayId) {    
+          relaysService.getOpenPorts($scope.page_size, relayId).success(function (response) {
+              $scope.totalItemsOpenPorts = response.count;
+              $scope.openList = response.results;
+          });
+    };    
+
+
+    $scope.loadClosedPorts = function(relayId) {        
+          relaysService.getClosedPorts($scope.page_size, relayId).success(function (response) {
+              $scope.totalItemsClosedPorts = response.count;
+              $scope.closedList = response.results;
+          });
+    };   
+
+    $scope.loadFilteredPorts = function(relayId) {  
+          relaysService.getFilteredPorts($scope.page_size, relayId).success(function (response) {
+              $scope.totalItemsFilteredPorts = response.count;
+              $scope.filteredList = response.results;
+          });
+    };  
+    $scope.loadPorts = function(relaySelected) {
+      $scope.relayIdSelected = relaySelected;
+      $scope.loadOpenPorts(relaySelected);
+      $scope.loadClosedPorts(relaySelected);
+      $scope.loadFilteredPorts(relaySelected);
+    }
+});
 
 tortazoControllers.controller('botnetController', function($scope, botnetService) {
    $scope.botsList = [];
@@ -279,7 +334,7 @@ bootstrapModule.controller('MainModalController', function ($scope, $modal, $log
     var modalInstance = $modal.open({
       templateUrl: 'templateModal.html',
       controller: 'templateModalController',
-      size: size
+      windowClass: size
     });
     modalInstance.modalType=modalType;
     modalInstance.trace=trace;

@@ -129,10 +129,17 @@ var en_Translation = {
   'RelayDetail_Address' : "IP", 
   'RelayDetail_State' : "State", 
   'RelayDetail_Reason' : "Reason", 
+  'RelayDetail_Port' : "Port", 
+  'RelayDetail_ServiceName' : "Service Name", 
+  'RelayDetail_ServiceVersion' : 'Service Version',
   'RelayDetail_Nickname' : "Nickname", 
   'RelayDetail_Fingerprint' : "Fingerprint", 
   'RelayDetail_OS' : "OS", 
-  "RelayDetail_Header" : "Details about the relay: "
+  "RelayDetail_Header" : "Details about the relay: ", 
+  "RelayDetail_RelayInfo" : "Relay's Information", 
+  "RelayDetail_DetailLabel" : "Details", 
+  "RelayDetail_PortsInfo" : "Information about ports",
+
 }
 
 var es_Translation = {
@@ -266,10 +273,16 @@ var es_Translation = {
   'RelayDetail_Address' : "Dirección IP", 
   'RelayDetail_State' : "Estado", 
   'RelayDetail_Reason' : "Causa", 
+  'RelayDetail_Port' : "Puerto", 
+  'RelayDetail_ServiceName' : "Nombre del Servicio", 
+  'RelayDetail_ServiceVersion' : 'Versión del Servicio',
   'RelayDetail_Nickname' : "Etiqueta", 
   'RelayDetail_Fingerprint' : "Huella", 
   'RelayDetail_OS' : "Sistema Operativo", 
-  "RelayDetail_Header" : "Detalles sobre el repetidor: "
+  "RelayDetail_Header" : "Detalles sobre el repetidor: ",
+  "RelayDetail_RelayInfo" : "Datos del repetidor",
+  "RelayDetail_DetailLabel" : "Detalles", 
+  "RelayDetail_PortsInfo" : "Información sobre Puertos",
 }
 
 var app = angular.module('tortazoApp', [
