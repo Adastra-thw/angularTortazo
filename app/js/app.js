@@ -290,7 +290,8 @@ var app = angular.module('tortazoApp', [
   'ngCookies',
   'tortazoApp.controllers',
   'tortazoApp.ui',
-  'tortazoApp.services', 'pascalprecht.translate'
+  'tortazoApp.services', 'pascalprecht.translate',
+  "uiGmapgoogle-maps"
 ]);
 
 app.config(['$translateProvider', 
@@ -333,3 +334,10 @@ app.config(['$routeProvider', '$translateProvider',
       });
     }
     ]);
+
+app.config(function(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        v: '3.17',
+        libraries: 'weather,geometry,visualization'
+    });
+})

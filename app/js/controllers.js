@@ -432,3 +432,10 @@ bootstrapModule.controller('templateModalController', function ($scope, $modalIn
     modalInstance.modalType=modalType;
   };
 });*/
+
+tortazoControllers.controller("geoLocationController", function($scope, uiGmapGoogleMapApi, uiGmapLogger) {
+    $scope.map = { center: { latitude: 0, longitude: -0 }, zoom: 2 };
+    uiGmapGoogleMapApi.then(function(maps) {
+        //http://angular-ui.github.io/angular-google-maps/#!/api
+    });
+});
