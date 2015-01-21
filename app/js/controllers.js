@@ -155,20 +155,31 @@ tortazoControllers.controller('relaysController', function($scope, relaysService
     }
 });
 
-tortazoControllers.controller("geoLocationController", function($scope, uiGmapGoogleMapApi, uiGmapLogger, geoLocationService) {
+//tortazoControllers.controller("geoLocationController", function($scope, uiGmapGoogleMapApi, geoLocationService) {
+    /*$scope.map = { center: { latitude: 1, longitude: -1 }, zoom: 2, options: {mapTypeId : google.maps.MapTypeId.SATELLITE }, markers: [] };
     $scope.references = [];
     $scope.loadGeoReferences = function(relaysSelected) {
       for(nodeId in relaysSelected) {
         geoLocationService.getReferences(relaysSelected[nodeId]).success(function (response) {
             for(result in response.results) {
-              reference = response.results[result];
-              $scope.references['id'] = reference.id;
-              $scope.references['latitude'] = reference.nodelatitute;
-              $scope.references['longitude'] = reference.nodelongitute;
-              $scope.references['title'] = 'Test';
-              console.log($scope.references);
+              console.log(response.results[result].nodelatitute);
+              console.log(response.results[result].nodelongitute);
+              var reference = {
+                latitude: response.results[result].nodelatitute,
+                longitude: response.results[result].nodelongitute,
+                id : result.id
+              }
+              $scope.references.push(reference);
             }           
         });
+      }
+    }*/
+    
+    /*var ret2 = {
+        latitude: 90,
+        longitude: 40,
+        id : 1};
+    $scope.map.markers.push(ret2);
 
         /*console.log(response);
         for(result in response.results) {
@@ -176,15 +187,62 @@ tortazoControllers.controller("geoLocationController", function($scope, uiGmapGo
           $scope.references['latitude'] = result.nodelatitude;
           $scope.references['longitude'] = result.nodelongitude;
         }*/
-      }
+
       //alert($scope.references);
-    }
-    $scope.map = { center: { latitude: 0, longitude: -0 }, zoom: 2 };
-      uiGmapGoogleMapApi.then(function(maps) {
-          //http://angular-ui.github.io/angular-google-maps/#!/api
-    });
     
-});
+//});
+
+tortazoControllers.controller('geoLocationController', function($scope, $rootScope) {
+    $scope.map = {
+      center: {
+        latitude: 1,
+        longitude: -1
+      },
+      zoom: 2,
+      bounds: {}
+    };
+    $scope.options = {
+      scrollwheel: false,
+      mapTypeId : google.maps.MapTypeId.SATELLITE 
+    };
+    $scope.setSelectedRelays = function(selectedRelays) {
+      console.log("setSelectedRelays");
+      console.log(selectedRelays);
+      console.log($rootScope);
+      $rootScope.selectedRelays = selectedRelays;
+      console.log($rootScope.selectedRelays);
+    }
+    var createRandomMarker = function(i, latitude, longitude) {
+      console.log("createRandomMarker");
+      idKey = "id";
+      console.log(i);
+      console.log(latitude);
+      console.log(longitude);
+      var ret = {
+        latitude: latitude,
+        longitude: longitude,
+        title: 'm' + i
+      };
+      ret[idKey] = i;
+      return ret;
+    };
+    $scope.randomMarkers = [];
+    // Get the bounds from the map once it's loaded
+    $scope.$watch(function() {
+      return $scope.map.bounds;
+    }, function(nv, ov) {
+      if (!ov.southwest && nv.southwest) {
+        var markers = [];
+        console.log("func!");
+        console.log($rootScope.selectedRelays);
+        for (relay in $rootScope.selectedRelays) {
+          console.log($rootScope.selectedRelays[relay].nodelatitute, $rootScope.selectedRelays[relay].nodelongitude);
+          markers.push(createRandomMarker(relay, $rootScope.selectedRelays[relay].nodelatitute, $rootScope.selectedRelays[relay].nodelongitude));
+        }
+        $scope.randomMarkers = markers;
+      }
+    }, true);
+  });
 
 tortazoControllers.controller('botnetController', function($scope, botnetService) {
    $scope.botsList = [];

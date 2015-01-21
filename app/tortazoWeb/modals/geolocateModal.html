@@ -1,12 +1,25 @@
 <div class="table-responsive" ng-controller="scansController">
-    <div class="panel panel-primary" ng-controller="geoLocationController" ng-init="loadGeoReferences(sharedParameter)">
+    <div class="panel panel-primary" ng-controller="geoLocationController" ng-init="setSelectedRelays(sharedParameter)">
         <div class="panel-heading">Geolocate relays</div>
-
-    	<ui-gmap-google-map center='map.center' zoom='map.zoom' draggable="true">   
-    	    <ui-gmap-markers models="references">
-    	    </ui-gmap-markers>
+<!--
+    	<ui-gmap-google-map center='map.center' zoom='map.zoom' refresh="true" draggable="true" options="map.options">   
+    		<ui-gmap-markers models="map.markers" isLabel="true"></ui-gmap-markers>
         </ui-gmap-google-map>
+-->        
     </div>
+
+
+
+
+<div id="map_canvas" ng-controller="geoLocationController">
+    <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
+        <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'">
+        </ui-gmap-markers>
+    </ui-gmap-google-map>
+</div>
+
+
+
 
     <div class="table-responsive" >
     </div>
