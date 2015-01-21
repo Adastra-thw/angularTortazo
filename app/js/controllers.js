@@ -41,6 +41,8 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
     $scope.functionLoadRelays = function(scanId) {
           $scope.scanIdSelected = scanId
           $scope.currentPageRelays = 1;
+          $scope.isAnalizeRelayDisabled = true;
+          $scope.isGeolocateRelaysDisabled = true;          
           $scope.relaySelectedInPages = [];
           scansService.getRelays(scanId, $scope.currentPageRelays).success(function (response) {
               $scope.totalItemsRelays = response.count;
@@ -151,6 +153,37 @@ tortazoControllers.controller('relaysController', function($scope, relaysService
       $scope.loadClosedPorts(relaySelected);
       $scope.loadFilteredPorts(relaySelected);
     }
+});
+
+tortazoControllers.controller("geoLocationController", function($scope, uiGmapGoogleMapApi, uiGmapLogger, geoLocationService) {
+    $scope.references = [];
+    $scope.loadGeoReferences = function(relaysSelected) {
+      for(nodeId in relaysSelected) {
+        geoLocationService.getReferences(relaysSelected[nodeId]).success(function (response) {
+            for(result in response.results) {
+              reference = response.results[result];
+              $scope.references['id'] = reference.id;
+              $scope.references['latitude'] = reference.nodelatitute;
+              $scope.references['longitude'] = reference.nodelongitute;
+              $scope.references['title'] = 'Test';
+              console.log($scope.references);
+            }           
+        });
+
+        /*console.log(response);
+        for(result in response.results) {
+          console.log(result);
+          $scope.references['latitude'] = result.nodelatitude;
+          $scope.references['longitude'] = result.nodelongitude;
+        }*/
+      }
+      //alert($scope.references);
+    }
+    $scope.map = { center: { latitude: 0, longitude: -0 }, zoom: 2 };
+      uiGmapGoogleMapApi.then(function(maps) {
+          //http://angular-ui.github.io/angular-google-maps/#!/api
+    });
+    
 });
 
 tortazoControllers.controller('botnetController', function($scope, botnetService) {
@@ -432,10 +465,3 @@ bootstrapModule.controller('templateModalController', function ($scope, $modalIn
     modalInstance.modalType=modalType;
   };
 });*/
-
-tortazoControllers.controller("geoLocationController", function($scope, uiGmapGoogleMapApi, uiGmapLogger) {
-    $scope.map = { center: { latitude: 0, longitude: -0 }, zoom: 2 };
-    uiGmapGoogleMapApi.then(function(maps) {
-        //http://angular-ui.github.io/angular-google-maps/#!/api
-    });
-});

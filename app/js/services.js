@@ -11,9 +11,7 @@ tortazoApp.factory('scansService', function($http) {
 
 
     apiScans.getRelays = function(scanId, page) {
-      return $http({
-        url: 'http://127.0.0.1:8000/scan/torNodeData/?scanid='+scanId+"&page="+page
-      });
+      return $http({url: 'http://127.0.0.1:8000/scan/torNodeData/?scanid='+scanId+"&page="+page});
     }
     return apiScans;
 })
@@ -40,6 +38,16 @@ tortazoApp.factory('relaysService', function($http) {
       });
     }    
     return apiRelays;
+})
+
+tortazoApp.factory('geoLocationService', function($http) {
+
+    var apiGeoLocation = {};
+    apiGeoLocation.getReferences = function(nodeId) {
+      return $http({url: 'http://127.0.0.1:8000/scan/geolocation/?nodeid='+nodeId});      
+    }
+
+    return apiGeoLocation;
 })
 
 
