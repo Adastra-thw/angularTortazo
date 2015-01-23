@@ -192,7 +192,8 @@ tortazoControllers.controller('relaysController', function($scope, relaysService
     
 //});
 
-tortazoControllers.controller('geoLocationController', function($scope, $rootScope) {
+
+tortazoControllers.controller('geoLocationController', function($scope, $rootScope, uiGmapGoogleMapApi, uiGmapLogger, geoLocationService) {
     $scope.map = {
       center: {
         latitude: 1,
@@ -203,21 +204,13 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
     };
     $scope.options = {
       scrollwheel: false,
-      mapTypeId : google.maps.MapTypeId.SATELLITE 
+      mapTypeId : google.maps.MapTypeId.SATELLITE
     };
     $scope.setSelectedRelays = function(selectedRelays) {
-      console.log("setSelectedRelays");
-      console.log(selectedRelays);
-      console.log($rootScope);
       $rootScope.selectedRelays = selectedRelays;
-      console.log($rootScope.selectedRelays);
     }
-    var createRandomMarker = function(i, latitude, longitude) {
-      console.log("createRandomMarker");
+    var createMarker = function(i, latitude, longitude) {
       idKey = "id";
-      console.log(i);
-      console.log(latitude);
-      console.log(longitude);
       var ret = {
         latitude: latitude,
         longitude: longitude,
@@ -233,16 +226,17 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
     }, function(nv, ov) {
       if (!ov.southwest && nv.southwest) {
         var markers = [];
-        console.log("func!");
-        console.log($rootScope.selectedRelays);
         for (relay in $rootScope.selectedRelays) {
-          console.log($rootScope.selectedRelays[relay].nodelatitute, $rootScope.selectedRelays[relay].nodelongitude);
-          markers.push(createRandomMarker(relay, $rootScope.selectedRelays[relay].nodelatitute, $rootScope.selectedRelays[relay].nodelongitude));
+            geoLocationService.getReferences($rootScope.selectedRelays[relay]).success(function (response) {
+                for(result in response.results) {
+                    markers.push(createMarker(response.results[result].id,response.results[result].nodelatitute,response.results[result].nodelongitute));
+                }
+            });         
         }
         $scope.randomMarkers = markers;
       }
     }, true);
-  });
+});
 
 tortazoControllers.controller('botnetController', function($scope, botnetService) {
    $scope.botsList = [];
