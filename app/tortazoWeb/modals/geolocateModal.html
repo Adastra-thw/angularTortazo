@@ -13,7 +13,7 @@
 
 <div id="map_canvas" ng-controller="geoLocationController">
     <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
-        <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'">
+        <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'" click="'onClicked'">
         </ui-gmap-markers>
     </ui-gmap-google-map>
 </div>

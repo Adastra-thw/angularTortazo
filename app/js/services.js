@@ -47,6 +47,10 @@ tortazoApp.factory('geoLocationService', function($http) {
       return $http({url: 'http://127.0.0.1:8000/scan/geolocation/?nodeid='+nodeId});      
     }
 
+    apiGeoLocation.getShodanInformation = function(relayId) {
+      return $http({url: 'http://127.0.0.1:8000/scan/shodanReference/?relayid='+relayId});      
+    }
+
     return apiGeoLocation;
 })
 

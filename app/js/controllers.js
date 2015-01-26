@@ -209,15 +209,27 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
     $scope.setSelectedRelays = function(selectedRelays) {
       $rootScope.selectedRelays = selectedRelays;
     }
+
+  var onMarkerRelay = function (marker) {
+    marker.showWindow = true;
+    $scope.$apply();
+    window.alert("Marker: lat: " + marker.latitude + ", lon: " + marker.longitude + " clicked!!" );
+    alert(marker.id);
+  };
+
+
     var createMarker = function(i, latitude, longitude) {
       idKey = "id";
-      var ret = {
+      var marker = {
         latitude: latitude,
-        longitude: longitude,
-        title: 'm' + i
+        longitude: longitude
       };
-      ret[idKey] = i;
-      return ret;
+      marker[idKey] = i;
+      marker.onClicked = function () {
+        onMarkerRelay(marker);
+      };
+
+      return marker;
     };
     $scope.randomMarkers = [];
     // Get the bounds from the map once it's loaded
