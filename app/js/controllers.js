@@ -193,7 +193,7 @@ tortazoControllers.controller('relaysController', function($scope, relaysService
 //});
 
 
-tortazoControllers.controller('geoLocationController', function($scope, $rootScope, uiGmapGoogleMapApi, uiGmapLogger, geoLocationService) {
+tortazoControllers.controller('geoLocationController', function($scope, $rootScope, uiGmapGoogleMapApi, uiGmapLogger, geoLocationService, relaysService) {
     $scope.map = {
       center: {
         latitude: 1,
@@ -209,13 +209,24 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
     $scope.setSelectedRelays = function(selectedRelays) {
       $rootScope.selectedRelays = selectedRelays;
     }
-
+  $scope.shodanSelectedRelay = null;
   var onMarkerRelay = function (marker) {
     marker.showWindow = true;
     $scope.$apply();
-    window.alert("Marker: lat: " + marker.latitude + ", lon: " + marker.longitude + " clicked!!" );
-    alert(marker.id);
+    //window.alert("Marker: lat: " + marker.latitude + ", lon: " + marker.longitude + " clicked!!" );
+    relaysService.getRelay(marker.id).success( function (responseRelay) {
+      for(mapRelay in responseRelay.results){
+        $scope.selectedMapRelay = responseRelay.results[mapRelay];
+      }
+      
+
+      geoLocationService.getShodanInformation($scope.selectedMapRelay.host).success( function (responseShodan) {
+        $scope.shodanSelectedRelay = responseShodan;
+        console.log($scope.shodanSelectedRelay );
+      });
+    });
   };
+  
 
 
     var createMarker = function(i, latitude, longitude) {

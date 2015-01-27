@@ -37,6 +37,13 @@ tortazoApp.factory('relaysService', function($http) {
         url: 'http://127.0.0.1:8000/scan/torNodePort/?page_size='+page_size+'&tortazonode='+relayId+'&state=filtered'
       });
     }    
+
+    apiRelays.getRelay = function(relayId) {
+      return $http({
+        url: 'http://127.0.0.1:8000/scan/torNodeData/?id='+relayId
+      });
+    }
+
     return apiRelays;
 })
 
@@ -47,8 +54,8 @@ tortazoApp.factory('geoLocationService', function($http) {
       return $http({url: 'http://127.0.0.1:8000/scan/geolocation/?nodeid='+nodeId});      
     }
 
-    apiGeoLocation.getShodanInformation = function(relayId) {
-      return $http({url: 'http://127.0.0.1:8000/scan/shodanReference/?relayid='+relayId});      
+    apiGeoLocation.getShodanInformation = function(address) {
+      return $http({url: 'http://127.0.0.1:8000/scan/shodanReference/?address='+address});      
     }
 
     return apiGeoLocation;
