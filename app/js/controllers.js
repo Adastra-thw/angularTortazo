@@ -25,6 +25,8 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
     //Number of items per page.
     $scope.itemsPerPage=10;
 
+    $scope.checkAll = false;     
+
     scansService.getScans($scope.currentPageScans).success(function (response) {
         $scope.totalItemsScans = response.count;
         $scope.scansList = response.results;
@@ -112,6 +114,15 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
       }
       */
     };
+
+    $scope.checkRelaysInCurrentList = function() {
+      alert($scope.checkAll);
+      $scope.relaySelectedInPages = [];
+      for (relay in $scope.relaysList) {
+        $scope.relaysList[relay].checkedRelay = $scope.checkAll;
+        $scope.relaySelectedInPages.push($scope.relaysList[relay].id);
+      };
+    };    
    
 });
 
@@ -120,7 +131,7 @@ tortazoControllers.controller('relaysController', function($scope, relaysService
     $scope.closedList = [];
     $scope.filteredList = [];
     $scope.page_size = 50;
-
+    
     $scope.setDetailRelay = function(relay) {
       $scope.relaySelected = relay;    
     }  
@@ -194,22 +205,31 @@ tortazoControllers.controller('relaysController', function($scope, relaysService
 
 
 tortazoControllers.controller('geoLocationController', function($scope, $rootScope, uiGmapGoogleMapApi, uiGmapLogger, geoLocationService, relaysService) {
+    $scope.isCollapsedBasicInfo = true;
+    $scope.isCollapsedPortsInfo = true;
+    $scope.shodanSelectedRelay = null;
+    $scope.showShodanInfo = false;
+    $scope.showShodanPorts = false;
+      
+      
+    
     $scope.map = {
       center: {
         latitude: 1,
         longitude: -1
       },
-      zoom: 2,
+      zoom: 3,
       bounds: {}
     };
     $scope.options = {
-      scrollwheel: false,
-      mapTypeId : google.maps.MapTypeId.SATELLITE
+      scrollwheel: false
+      //mapTypeId : google.maps.MapTypeId.HYBRID
+      //mapTypeId : google.maps.MapTypeId.SATELLITE
     };
     $scope.setSelectedRelays = function(selectedRelays) {
       $rootScope.selectedRelays = selectedRelays;
     }
-  $scope.shodanSelectedRelay = null;
+
   var onMarkerRelay = function (marker) {
     marker.showWindow = true;
     $scope.$apply();
@@ -221,8 +241,23 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
       
 
       geoLocationService.getShodanInformation($scope.selectedMapRelay.host).success( function (responseShodan) {
-        $scope.shodanSelectedRelay = responseShodan;
-        console.log($scope.shodanSelectedRelay );
+        if(responseShodan != null) {
+          $scope.showShodanInfo = true;
+          $scope.shodanSelectedRelay = new Object();
+          $scope.shodanSelectedRelay.city = responseShodan.city;
+          $scope.shodanSelectedRelay.country_code = responseShodan.country_code3;
+          $scope.shodanSelectedRelay.country_name = responseShodan.country_name;
+          $scope.shodanSelectedRelay.ip_str = responseShodan.ip_str;
+          $scope.shodanSelectedRelay.isp = responseShodan.isp;
+          $scope.shodanSelectedRelay.last_update = responseShodan.last_update;
+          $scope.shodanSelectedRelay.ports = responseShodan.ports;
+          $scope.shodanSelectedRelay.hostnames = responseShodan.hostnames;
+          
+          if(responseShodan.data.length > 0) {
+            $scope.showShodanPorts = true;
+          }
+          $scope.shodanSelectedRelay.portsInfo = responseShodan.data;
+        }
       });
     });
   };
@@ -261,6 +296,47 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
     }, true);
 });
 
+tortazoControllers.controller('onionRepoController', function($scope, onionRepoService) {
+   $scope.incrementalList = [];
+   $scope.responsesList = [];
+   $scope.totalItemsRandom = 0;
+   $scope.currentPageRandom = 1;
+
+   $scope.totalItemsIncremental = 0;
+   $scope.currentPageIncremental = 1;   
+   
+    //Number of items per page.
+    $scope.itemsPerPage=10;
+    
+   $scope.pageChangedRandom= function() {
+      onionRepoService.getResponses($scope.currentPageRandom).success(function (response) {
+        $scope.totalItemsRandom = response.count;
+        $scope.responsesList = response.results;
+      });
+    };    
+
+   $scope.pageChangedIncremental = function() {
+      onionRepoService.getOnionRepoIncremental($scope.currentPageIncremental).success(function (response) {
+        $scope.totalItemsIncremental = response.count;
+        $scope.incrementalList = response.results;
+      });
+    };    
+    
+   /**
+    * Functions for "onionrepository.html"
+    */
+    onionRepoService.getOnionRepoIncremental($scope.currentPageIncremental).success(function (response) {
+        $scope.incrementalList   = response.results;
+    });
+
+    onionRepoService.getResponses($scope.currentPageRandom).success(function (response) {
+      console.log()
+        $scope.responsesList = response.results;
+        console.log(response.count);
+    });
+
+});
+
 tortazoControllers.controller('botnetController', function($scope, botnetService) {
    $scope.botsList = [];
    $scope.botLocations = [];
@@ -279,22 +355,6 @@ tortazoControllers.controller('botnetController', function($scope, botnetService
 
     botnetService.getBotLocations().success(function (response) {
         $scope.botLocations  = response.results;
-    });
-
-});
-
-tortazoControllers.controller('onionRepoController', function($scope, onionRepoService) {
-   $scope.incrementalList = [];
-   $scope.responsesList = [];
-   /**
-    * Functions for "onionrepository.html"
-    */
-    onionRepoService.getOnionRepoIncremental().success(function (response) {
-        $scope.incrementalList   = response.results;
-    });
-
-    onionRepoService.getResponses().success(function (response) {
-        $scope.responsesList = response.results;
     });
 
 });

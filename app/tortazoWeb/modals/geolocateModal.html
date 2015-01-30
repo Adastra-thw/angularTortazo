@@ -13,14 +13,139 @@
 
 <div id="map_canvas" ng-controller="geoLocationController">
     <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
+        <ui-gmap-layer namespace="weather" type="WeatherLayer" show="true"></ui-gmap-layer>
         <ui-gmap-markers models="randomMarkers" coords="'self'" icon="'icon'" click="'onClicked'">
         </ui-gmap-markers>
     </ui-gmap-google-map>
+    
+    <br />
+    <div ng-hide="!showShodanInfo">
+        <legend>{{'Shodan_Report' | translate}}</legend> 
+        <a ng-click="isCollapsedBasicInfo = !isCollapsedBasicInfo">
+            {{'Shodan_RelayInfo' | translate}}
+        </a>
+        <div collapse="isCollapsedBasicInfo">
+            <div>
+                <table width="100%" align="center">
+                    <tr>
+                        <td>
+            		        <b>{{'ShodanRelay_city' | translate}}</b>
+                        </td>
+                        <td>        
+                            {{shodanSelectedRelay.city}}
+                        </td>                       
+                        </tr>           
+                        <tr>
+                            <td>
+            		            <b>{{'ShodanRelay_countrycode' | translate}}</b>
+                            </td>
+            		        <td>        
+            		            {{shodanSelectedRelay.country_code}}
+                            </td>                       
+                        </tr>
+                        <tr>
+                            <td>
+            		            <b>{{'ShodanRelay_countryname' | translate}}</b>
+                            </td>
+            		        <td>        
+            		            {{shodanSelectedRelay.country_name}}
+                            </td>                       
+                        </tr>
+                        <tr>
+                            <td>
+            		            <b>{{'ShodanRelay_ipaddress' | translate}}</b>
+                            </td>
+            		        <td>        
+            		            {{shodanSelectedRelay.ip_str}}
+                            </td>                       
+                        </tr>
+                        <tr>
+                            <td>
+            		            <b>{{'ShodanRelay_isp' | translate}}</b>
+                            </td>
+            		        <td>        
+            		            {{shodanSelectedRelay.isp}}
+                            </td>                       
+                        </tr>
+                        <tr>
+                            <td>
+            		            <b>{{'ShodanRelay_lastUpdate' | translate}}</b>
+                            </td>
+            		        <td>        
+            		            {{shodanSelectedRelay.last_update}}
+                            </td>                       
+                        </tr>
+                        <tr>
+                            <td>
+            		            <b>{{'ShodanRelay_Ports' | translate}}</b>
+                            </td>
+            		        <td>        
+                                <table class="table table-bordered table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>{{'ShodanRelay_PortNumber' | translate}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="port in shodanSelectedRelay.ports">
+                                            <td>{{port}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>            		                
+                            </td>                       
+                        </tr>
+                        <tr>
+                            <td>
+            		            <b>{{'ShodanRelay_Hosts' | translate}}</b>
+                            </td>
+            		        <td>        
+                                <table class="table table-bordered table-hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>{{'ShodanRelay_HostName' | translate}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="hostname in shodanSelectedRelay.hostnames">
+                                            <td>{{hostname}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>            		                
+                            </td>                       
+                        </tr>
+                </table>
+                </div>
+            </div>
+            
+            <br />
+            
+            <a ng-hide="!showShodanPorts" ng-click="isCollapsedPortsInfo = !isCollapsedPortsInfo">{{'ShodanRelay_PortsInfo' | translate}}</a>
+            <div collapse="isCollapsedPortsInfo">
+                    <table width="100%" align="center" class="table table-bordered table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{'ShodanRelay_Port' | translate}}</th>
+                                <th>{{'ShodanRelay_Version' | translate}}</th>
+                                <th>{{'ShodanRelay_InfoReported' | translate}}</th>
+                                <th>{{'ShodanRelay_Product' | translate}}</th>
+                                <th>{{'ShodanRelay_Timestamp' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="portInfo in shodanSelectedRelay.portsInfo">
+                                <td>{{portInfo.port}}</td>
+                                <td>{{portInfo.version}}</td>
+                                <td>{{portInfo.info}}</td>
+                                <td>{{portInfo.product}}</td>
+                                <td>{{portInfo.timestamp}}</td>
+                            </tr>
+                        </tbody>                                 
+                    </table>
+            </div>
+    </div>    
 </div>
 
-
-
-
+</hr>
     <div class="table-responsive" >
     </div>
     <br />

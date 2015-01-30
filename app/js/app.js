@@ -14,7 +14,7 @@ var en_Translation = {
   'AccordionInfo_EditionsHeader' : "Editions", 
   'AccordionInfo_HelpContactHeader' : "Help/Contact", 
   'AccordionInfo_FAQHeader' : "FAQs", 
-  'AccordionInfo_AboutTortazoText' : "Stem is a powerful library written in Python to perform various operations against TOR Clients and Directory Authorities. The information gathered using Stem could be very useful to an attacker to gather information about the relays available in the TOR network. Tortazo is an open source project to gather information about ExitNodes in the TOR Network, perform bruteforce attacks against services like FTP or SSH and create a Botnet with the compromised ExitNodes over SSH. Tortazo includes a lot of features in the plugins form to perform pentesting activities against TOR relays and hidden services in the deep web. In the documentation, you’ll see in detail all the features included in Tortazo. The main objetive of this project is establish a bridge between the TOR deep web and the Python hackers. Let’s run python scripts in the TOR's deep web!", 
+  'AccordionInfo_AboutTortazoText' : "Stem is a powerful library written in Python to perform various operations against TOR Clients and Directory Authorities. Tortazo is an open source project to gather information about ExitNodes in the TOR Network, perform bruteforce attacks against services like FTP or SSH and create a Botnet with the compromised ExitNodes over SSH. Tortazo includes a lot of features in the plugins form to perform pentesting activities against TOR relays and hidden services in the deep web. In the documentation, you’ll see in detail all the features included in Tortazo. The main objetive of this project is establish a bridge between the TOR deep web and the Python hackers. Let’s run python scripts in the TOR's deep web!", 
   'AccordionInfo_InstallationSupportText' : "Tortazo is 'anti-script kiddies' and is not a 'one-click-hack' tool. There's a lot of dependencies and settings that you must know, but if you're a python hacker, with motivation needed, you'll read the docs and will use the framework properly", 
   'AccordionInfo_EditionsText' : "There are currently two editions of Tortazo: Community and Professional edition. The Community version is free and can be used without restriction, however in the Professional version there are several interesting extensions that are only available for those who have a valid product code",   
   'AccordionInfo_HelpContactText' : "If you need to contact: ", 
@@ -139,7 +139,27 @@ var en_Translation = {
   "RelayDetail_RelayInfo" : "Relay's Information", 
   "RelayDetail_DetailLabel" : "Details", 
   "RelayDetail_PortsInfo" : "Information about ports",
-
+  
+    'Shodan_Report' : "Shodan Report.",
+    "Shodan_RelayInfo" : "Basic Information", 
+    "ShodanRelay_city" : "City", 
+    "ShodanRelay_countrycode" : "Country Code", 
+    "ShodanRelay_countryname" : "Country",
+    "ShodanRelay_ipaddress" : "IP Address",
+    "ShodanRelay_isp" : "ISP",
+    "ShodanRelay_lastUpdate" : "Last update",
+    "ShodanRelay_Ports" : "Ports",
+    "ShodanRelay_PortNumber" : "Port Number",
+    "ShodanRelay_Hosts" : "Hosts",
+    "ShodanRelay_HostName" : "Hostname",   
+    
+    "ShodanRelay_PortsInfo" : "Ports Information",
+    
+    "ShodanRelay_Port" : "Port",
+    "ShodanRelay_Version" : "Version",
+    "ShodanRelay_InfoReported" : "Information Reported",
+    "ShodanRelay_Product" : "Product",
+    "ShodanRelay_Timestamp" : "Timestamp",
 }
 
 var es_Translation = {
@@ -158,7 +178,7 @@ var es_Translation = {
   'AccordionInfo_EditionsHeader' : "Ediciones", 
   'AccordionInfo_HelpContactHeader' : "Ayuda/Contacto", 
   'AccordionInfo_FAQHeader' : "FAQs", 
-  'AccordionInfo_AboutTortazoText' : "Stem es una potente librería escrita en Python para ejecutar varios tipos de operaciones contra clientes TOR y autoridades de directorio. La información recolectada utilizando Stem podría ser muy útil para un atacante a la hora de recolectar información sobre los repetidores disponibles en la red de TOR. Tortazo es un proyecto libre que permite recolectar información sobre los repetidores de salida en la red de TOR, ejecutar ataques de fuerza bruta contra servicios tales como FTP o SSH y crear una Botnet con los repetidores de salida comprometidos con SSH. Tortazo incluye varias funcionalidades en forma de plugins para ejecutar actividades de pentesting contra repetidores de TOR y servicios ocultos en la web profunda de TOR. In la documentación, podrás ver en detalle todas las caracteristicas incluidas en Tortazo. EL objetivo principal de este proyecto es el de establecer un puente entre los hackers de Python y la web profunda de TOR. Ejecuta scripts en Python en la web profunda de TOR.", 
+  'AccordionInfo_AboutTortazoText' : "Stem es una potente librería escrita en Python para ejecutar varios tipos de operaciones contra clientes TOR y autoridades de directorio. Tortazo es un proyecto libre que permite recolectar información sobre los repetidores de salida en la red de TOR, ejecutar ataques de fuerza bruta contra servicios tales como FTP o SSH y crear una Botnet con los repetidores de salida comprometidos con SSH. Tortazo incluye varias funcionalidades en forma de plugins para ejecutar actividades de pentesting contra repetidores de TOR y servicios ocultos en la web profunda de TOR. In la documentación, podrás ver en detalle todas las caracteristicas incluidas en Tortazo. EL objetivo principal de este proyecto es el de establecer un puente entre los hackers de Python y la web profunda de TOR. Ejecuta scripts en Python en la web profunda de TOR.", 
   'AccordionInfo_InstallationSupportText' : "Tortazo es 'anti-script kiddies' y no es una herramienta de descargar y ejecutar. Hay un gran número de dependencias y ajustes que debes conocer, pero si eres un hacker de Python, con la motivación necesaria, podrás leer la documentación y utilizar el framework correctamente", 
   'AccordionInfo_EditionsText' : "Actualmente existen 2 ediciones de Tortazo: La edición comunitaria y la profesional. La versión comunitaria es libre y la puedes utilizar sin restricción alguna, sin embargo en la versión profesional existen varias extensiones interesantes que solamente se encuentran disponibles para aquellos que cuenten con un código de producto valido.", 
   'AccordionInfo_HelpContactText' : "Si necesitas contactar: ", 
@@ -283,6 +303,27 @@ var es_Translation = {
   "RelayDetail_RelayInfo" : "Datos del repetidor",
   "RelayDetail_DetailLabel" : "Detalles", 
   "RelayDetail_PortsInfo" : "Información sobre Puertos",
+  
+  "Shodan_Report" : "Reporte de Shodan.",
+  "Shodan_RelayInfo" : "Información Básica", 
+  "ShodanRelay_city" : "Ciudad", 
+  "ShodanRelay_countrycode" : "Código de País", 
+  "ShodanRelay_countryname" : "País",
+  "ShodanRelay_ipaddress" : "Dirección IP",
+  "ShodanRelay_isp" : "ISP",
+  "ShodanRelay_lastUpdate" : "Última modificación",
+  "ShodanRelay_Ports" : "Puertos",
+  "ShodanRelay_PortNumber" : "Puerto",
+  "ShodanRelay_Hosts" : "Hosts",
+  "ShodanRelay_HostName" : "Nombre de dominio",    
+  "Shodan_RelayPortsInfo" : "Información sobre Puertos",
+  
+    "ShodanRelay_Port" : "Puerto",
+    "ShodanRelay_Version" : "Versión",
+    "ShodanRelay_InfoReported" : "Información Reportada",
+    "ShodanRelay_Product" : "Producto",
+    "ShodanRelay_Timestamp" : "Marca de tiempo",
+  
 }
 
 var app = angular.module('tortazoApp', [

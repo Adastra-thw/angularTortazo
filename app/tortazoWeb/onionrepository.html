@@ -56,6 +56,17 @@
                     </tbody>
                 </table>
             </div>
+            <div style="display: table;margin: 0 auto;">
+                <pagination total-items="totalItemsRandom"
+                            ng-model="currentPageRandom" 
+                            class="pagination-sm" 
+                            boundary-links="true" 
+                            rotate="false" 
+                            items-per-page="itemsPerPage" 
+                            ng-change="pageChangedRandom()">
+                </pagination>
+            </div>
+            <br />            
         </tab>
     </tabset>
 </div>
