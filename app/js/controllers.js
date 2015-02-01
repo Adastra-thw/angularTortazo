@@ -116,8 +116,8 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
     };
 
     $scope.checkRelaysInCurrentList = function() {
-      alert($scope.checkAll);
       $scope.relaySelectedInPages = [];
+      $scope.isGeolocateRelaysDisabled = !$scope.checkAll;
       for (relay in $scope.relaysList) {
         $scope.relaysList[relay].checkedRelay = $scope.checkAll;
         $scope.relaySelectedInPages.push($scope.relaysList[relay].id);
@@ -209,6 +209,7 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
     $scope.isCollapsedPortsInfo = true;
     $scope.shodanSelectedRelay = null;
     $scope.showShodanInfo = false;
+    $scope.showShodanBasicInfo = false;
     $scope.showShodanPorts = false;
       
       
@@ -232,6 +233,8 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
 
   var onMarkerRelay = function (marker) {
     marker.showWindow = true;
+    $scope.showShodanBasicInfo = false;
+    $scope.showShodanPorts = false;
     $scope.$apply();
     //window.alert("Marker: lat: " + marker.latitude + ", lon: " + marker.longitude + " clicked!!" );
     relaysService.getRelay(marker.id).success( function (responseRelay) {
@@ -244,19 +247,23 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
         if(responseShodan != null) {
           $scope.showShodanInfo = true;
           $scope.shodanSelectedRelay = new Object();
-          $scope.shodanSelectedRelay.city = responseShodan.city;
-          $scope.shodanSelectedRelay.country_code = responseShodan.country_code3;
-          $scope.shodanSelectedRelay.country_name = responseShodan.country_name;
-          $scope.shodanSelectedRelay.ip_str = responseShodan.ip_str;
-          $scope.shodanSelectedRelay.isp = responseShodan.isp;
-          $scope.shodanSelectedRelay.last_update = responseShodan.last_update;
-          $scope.shodanSelectedRelay.ports = responseShodan.ports;
-          $scope.shodanSelectedRelay.hostnames = responseShodan.hostnames;
-          
-          if(responseShodan.data.length > 0) {
-            $scope.showShodanPorts = true;
+          if(responseShodan.error) {
+            $scope.shodanSelectedRelay.error = responseShodan.error;
+          } else {
+            $scope.shodanSelectedRelay.city = responseShodan.city;
+            $scope.shodanSelectedRelay.country_code = responseShodan.country_code3;
+            $scope.shodanSelectedRelay.country_name = responseShodan.country_name;
+            $scope.shodanSelectedRelay.ip_str = responseShodan.ip_str;
+            $scope.shodanSelectedRelay.isp = responseShodan.isp;
+            $scope.shodanSelectedRelay.last_update = responseShodan.last_update;
+            $scope.shodanSelectedRelay.ports = responseShodan.ports;
+            $scope.shodanSelectedRelay.hostnames = responseShodan.hostnames;
+            $scope.showShodanBasicInfo = true;
+            if(responseShodan.data && responseShodan.data.length > 0) {
+              $scope.showShodanPorts = true;
+            }
+            $scope.shodanSelectedRelay.portsInfo = responseShodan.data;            
           }
-          $scope.shodanSelectedRelay.portsInfo = responseShodan.data;
         }
       });
     });

@@ -20,8 +20,9 @@
     
     <br />
     <div ng-hide="!showShodanInfo">
-        <legend>{{'Shodan_Report' | translate}}</legend> 
-        <a ng-click="isCollapsedBasicInfo = !isCollapsedBasicInfo">
+        <legend>{{'Shodan_Report' | translate}}</legend>
+        <b>{{shodanSelectedRelay.error}}</b>
+        <a ng-hide="!showShodanBasicInfo" ng-click="isCollapsedBasicInfo = !isCollapsedBasicInfo">
             {{'Shodan_RelayInfo' | translate}}
         </a>
         <div collapse="isCollapsedBasicInfo">
