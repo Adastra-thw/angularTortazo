@@ -37,7 +37,11 @@
     <script src="js-core/angular-translate-storage-cookie.js"></script>
 
     <script src='js-core/lodash.min.js'></script>
-    <script src='js-core/angular-google-maps.min.js'></script>       
+    <script src='js-core/angular-google-maps.min.js'></script> 
+
+    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.tpl.min.js"></script>    
 </head>
 
 <body>
@@ -52,7 +56,8 @@
         <div align="right">
             <a href="#" ng-click="changeLanguage('es')"><img src="img/icons/Spain.png" width="30" height="20" /></a>
             <a href="#" ng-click="changeLanguage('en')"><img src="img/icons/United-Kingdom.png" width="30" height="20" /></a>
-            <a href="#" ng-click="changeLanguage('fr')"><img src="img/icons/France.png" width="30" height="20" /></a>
+            <!--<a href="#" ng-click="changeLanguage('fr')"><img src="img/icons/France.png" width="30" height="20" /></a>
+            -->
         </div>
           {{ 'Project_Title' | translate }}<p><small>{{ 'Project_SubTitle' | translate }} </small> </p>
 				</h1>
@@ -109,6 +114,7 @@
         </div>
 	</div>
 </div>
+    <script src="js/translations.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>

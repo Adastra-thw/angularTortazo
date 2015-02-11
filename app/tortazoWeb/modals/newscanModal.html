@@ -3,8 +3,117 @@
     </div>
     <br />
 
-    <div class="table-responsive" ng-hide="!relaysList.length">
+    <div class="table-responsive" ng-controller="scansWizardController">
+    <tabset>
+        <tab heading="{{'Scans_Executed' | translate}}">
+            <br />
+            <div class="span5">
+                                    <div class="panel panel-primary"><div class="panel-heading">{{'Scans_HeaderText' | translate}}</div>
+                                        <table class="table table-bordered table-hover table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th align="center">
+                                                        {{'Scans_ScanId' | translate}}
+                                                    </th>
+                                                    <th align="center">
+                                                        {{'Scans_TortazoCommand' | translate}}
+                                                    </th>
+                                                    <th align="center">
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="scan in scansList">
+                                                    <td align="center">{{scan.id}}</td>
+                                                    <td align="center">
+                                                        <input class="btn btn-link" 
+                                                        value="{{'Scans_TortazoCommand' | translate}}"
+                                                        tooltip="{{scan.tortazocommand}}"  
+                                                        tooltip-trigger="focus" 
+                                                        tooltip-placement="top" 
+                                                        class="form-control" />
+                                                         
+                                                    </td>
+                                                    <td align="center">
+                                                        <a ng-click="runScan(scan.id)" ng-model="relaysList">{{ 'Scans_RunScan' | translate }}</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                    <div style="display: table;margin: 0 auto;">
+                        <pagination total-items="totalItemsScans"
+                                ng-model="currentPageScans" 
+                                class="pagination-sm" 
+                                boundary-links="true" 
+                                rotate="false" 
+                                items-per-page="itemsPerPage" 
+                                ng-change="pageChangedScans()">
+                        </pagination>
+                    </div>
+                <br />            		                
+            </div>            
+        </tab>
+        <tab heading="{{'Scans_Wizard' | translate}}">
+            <br />
+            <form name="wizardForm">
+                <div class="span12">
+                     <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+                    <div class="well clearfix">
+                    	<table width="100%" align="center">
+                    		<tr>
+            		            <div class="span5">
+                	                <legend>{{'Scans_TortazoCommand' | translate}}</legend> 
+                		            <td>
+                		                <table width="100%" align="center">
+                	                        <tr>
+                                                <td>
+                		                            <label class="col-sm-2 control-label">{{'Scans_Wizard_CommandToRun' | translate}}</label>
+                		                            <textarea ng-disabled="true" rows="2" cols="100" placeholder="{{commandToRun}}"></textarea>
+                                                    <a class="btn btn-default" ng-disabled="disableRunButton" ng-click="runCommand()">{{ 'Scans_Wizard_LaunchCommand' | translate }}</a>                    		                            	
+                                                </td>  
+                	                        </tr>           
+                	                        <tr>
+                	                            <td>
+                                                    <label class="col-sm-2 control-label">{{'Scans_Wizard_CommandSwitches' | translate}}</label>
+                                                    <select class="col-sm-2 control-label" 
+                                                            ng-model="selectedSwitch" 
+                                                            ng-change="loadInputType(selectedSwitch)"
+                                                            ng-options="switch.longSwitch for switch in switches" ></select>
+                                                </td>
+                                            </tr>
+                                            <tr ng-show="showInput">
+                                                <td ng-show="selectedSwitch.valued">
+                                                    <label class="col-sm-2 control-label">{{'Scans_Wizard_CommandValue' | translate}}</label>
+                                                    <input type="text" ng-model="switchValue" class="col-sm-3 control-label" />
+                                                </td>
+                                            </tr>
+                                            <tr ng-show="showSelect">
+                                                <td>
+                                                    <label class="col-sm-2 control-label">{{'Scans_Wizard_CommandValue' | translate}}</label>
+                                                    <select class="col-sm-2 control-label" 
+                                                            ng-model="selectedSwitchValue"
+                                                            ng-change="setSelectedValue(selectedSwitchValue)"
+                                                            ng-options="value for value in values" ></select>
+                                                </td>
+                                            </tr>
+                                            <tr ng-show="showAddButton">
+                                                <td>
+                                                    <label class="col-sm-2 control-label" />
+                                                    <a class="btn btn-default" ng-click="addSwitch(switchValue)">{{ 'Scans_Wizard_CommandPushSwitch' | translate }}</a>
+                                                    
+                	                            </td>                       
+                	                        </tr>
+                	                    </table>
+                	                </td>
+            	            	</div>
+            		        </tr>
+            	        </table>
+                    </div>
+                </div>    
+            </form>
+        </tab>
+    </tabset>
     </div>
-    <br />
-</div>
 
+</div>

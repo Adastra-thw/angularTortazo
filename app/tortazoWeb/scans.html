@@ -6,8 +6,15 @@
                     <th>
                         {{'Scans_ScanId' | translate}}
                     </th>
+                    <!--<th>
+                        {{'Scans_TortazoCommand' | translate}}
+                    </th>
+                    -->
                     <th>
                         {{'Scans_ScanDate' | translate }}
+                    </th>
+                    <th>
+                        {{'Scans_FinishedDate' | translate }}
                     </th>
                     <th>
                         {{'Scans_NumRelays' | translate }}
@@ -17,7 +24,11 @@
             <tbody>
                 <tr ng-repeat="scan in scansList">
                     <td>{{scan.id}}</td>
-                    <td>{{scan.scandate}}</td>
+                    <!--
+                    <td>{{scan.tortazocommand}}</td>
+                    -->
+                    <td>{{ scan.scandate }}</td>
+                    <td>{{scan.scanfinished}}</td>
                     <td>
                         <a ng-click="functionLoadRelays(scan.id)" ng-model="relaysList">{{ scan.numnodes }}</a>
                     </td>
@@ -87,7 +98,6 @@
             {{'GeolocateRelays_Button' | translate}}
         </span>
     </a>
-    <a class="btn btn-default" ng-click="open('lg', 7, 'ModalTrace_NewScan')">{{'NewScan_Button' | translate }}</a>
-    <br />
+    <a class="btn btn-default" ng-click="open('large-dialog', 7, 'ModalTrace_NewScan')">{{'NewScan_Button' | translate }}</a>
 </div>
 

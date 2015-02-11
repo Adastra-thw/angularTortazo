@@ -26,6 +26,7 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
     $scope.itemsPerPage=10;
 
     $scope.checkAll = false;     
+    $scope.checkAllInPages = {};
 
     scansService.getScans($scope.currentPageScans).success(function (response) {
         $scope.totalItemsScans = response.count;
@@ -44,7 +45,9 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
           $scope.scanIdSelected = scanId
           $scope.currentPageRelays = 1;
           $scope.isAnalizeRelayDisabled = true;
-          $scope.isGeolocateRelaysDisabled = true;          
+          $scope.isGeolocateRelaysDisabled = true;   
+          $scope.checkAll = false;
+          $scope.checkAllInPages = {}
           $scope.relaySelectedInPages = [];
           scansService.getRelays(scanId, $scope.currentPageRelays).success(function (response) {
               $scope.totalItemsRelays = response.count;
@@ -55,10 +58,7 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
           });
     };
 
-    $scope.pageChangedRelays = function() {
-      scansService.getRelays($scope.scanIdSelected, $scope.currentPageRelays).success(function (response) {
-        $scope.totalItemsRelays = response.count;
-        $scope.relaysList = response.results;
+    $scope.verifySelectedRelays = function() {
         for (relay in $scope.relaysList) {
           $scope.relaysList[relay].checkedRelay = false;
           for(idRelaySelected in $scope.relaySelectedInPages) {
@@ -67,10 +67,33 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
             }
           }          
         }
+    }
+        
+    $scope.pageChangedRelays = function() {
+      $scope.checkAll = $scope.checkAllInPages[$scope.currentPageRelays];
+      scansService.getRelays($scope.scanIdSelected, $scope.currentPageRelays).success(function (response) {
+        $scope.totalItemsRelays = response.count;
+        $scope.relaysList = response.results;
+          $scope.verifySelectedRelays();
       });
     };    
 
+    $scope.verifyFlags = function() {
+      if($scope.relaySelectedInPages.length == 1) {
+        $scope.isAnalizeRelayDisabled = false;
+        $scope.isGeolocateRelaysDisabled = false;
+      }
+      if($scope.relaySelectedInPages.length > 1) {
+        $scope.isAnalizeRelayDisabled = true;
+        $scope.isGeolocateRelaysDisabled = false;
+      }  
 
+      if($scope.relaySelectedInPages.length == 0) {
+        $scope.isAnalizeRelayDisabled = true;
+        $scope.isGeolocateRelaysDisabled = true;
+      }  
+    }
+    
     //Selection of relays.
     $scope.selectRelay = function() {
       itemsSelected = 0;
@@ -92,20 +115,7 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
         }
       }
 
-
-      if($scope.relaySelectedInPages.length == 1) {
-        $scope.isAnalizeRelayDisabled = false;
-        $scope.isGeolocateRelaysDisabled = false;
-      }
-      if($scope.relaySelectedInPages.length > 1) {
-        $scope.isAnalizeRelayDisabled = true;
-        $scope.isGeolocateRelaysDisabled = false;
-      }  
-
-      if($scope.relaySelectedInPages.length == 0) {
-        $scope.isAnalizeRelayDisabled = true;
-        $scope.isGeolocateRelaysDisabled = true;
-      }  
+    $scope.verifyFlags();
       /*
       for (relay in $scope.relaysList) {
         if($scope.relaysList[relay].checkedRelay == true) {
@@ -116,14 +126,23 @@ tortazoControllers.controller('scansController', function($scope, scansService) 
     };
 
     $scope.checkRelaysInCurrentList = function() {
-      $scope.relaySelectedInPages = [];
-      $scope.isGeolocateRelaysDisabled = !$scope.checkAll;
-      for (relay in $scope.relaysList) {
-        $scope.relaysList[relay].checkedRelay = $scope.checkAll;
-        $scope.relaySelectedInPages.push($scope.relaysList[relay].id);
-      };
-    };    
-   
+      if($scope.checkAll != $scope.checkAllInPages[$scope.currentPageRelays]) {
+        $scope.checkAllInPages[$scope.currentPageRelays] = $scope.checkAll;
+      //$scope.isGeolocateRelaysDisabled = !$scope.checkAll;
+        for (relay in $scope.relaysList) {
+          element = $scope.relaySelectedInPages.indexOf($scope.relaysList[relay].id);
+          if(element == -1){
+              $scope.relaysList[relay].checkedRelay = $scope.checkAll;
+              $scope.relaySelectedInPages.push($scope.relaysList[relay].id);
+          } else {
+            $scope.relaySelectedInPages.splice(element, 1);
+          }
+        };
+        $scope.verifySelectedRelays();
+        $scope.verifyFlags();        
+      }
+      
+    };
 });
 
 tortazoControllers.controller('relaysController', function($scope, relaysService) {
@@ -166,43 +185,332 @@ tortazoControllers.controller('relaysController', function($scope, relaysService
     }
 });
 
-//tortazoControllers.controller("geoLocationController", function($scope, uiGmapGoogleMapApi, geoLocationService) {
-    /*$scope.map = { center: { latitude: 1, longitude: -1 }, zoom: 2, options: {mapTypeId : google.maps.MapTypeId.SATELLITE }, markers: [] };
-    $scope.references = [];
-    $scope.loadGeoReferences = function(relaysSelected) {
-      for(nodeId in relaysSelected) {
-        geoLocationService.getReferences(relaysSelected[nodeId]).success(function (response) {
-            for(result in response.results) {
-              console.log(response.results[result].nodelatitute);
-              console.log(response.results[result].nodelongitute);
-              var reference = {
-                latitude: response.results[result].nodelatitute,
-                longitude: response.results[result].nodelongitute,
-                id : result.id
-              }
-              $scope.references.push(reference);
-            }           
-        });
+tortazoControllers.controller('scansWizardController', function($scope,  $translate, scansService) {
+  $scope.alerts = [];
+  $scope.selectedSwitches = {};
+  $scope.switches = [];
+  $scope.commandToRun = "Tortazo.py ";
+  $scope.switchValue = null;
+  $scope.selectedSwitchValue = null;
+
+  $scope.showSelect = false;
+  $scope.showInput = false;
+  $scope.showAddButton = false;  
+  
+  $scope.disabledRunButton=true;
+  /*
+  $scope.verbose = new Object();
+  $scope.verbose.longSwitch='--verbose';
+  $scope.verbose.helpSwitch="Verbose Mode.";
+  $scope.switches.push($scope.verbose);
+
+  $scope.generateSimpleReport = new Object();
+  $scope.generateSimpleReport.longSwitch="--generate-simple-nmapreport";
+  $scope.generateSimpleReport.helpSwitch="Generate a report for each exit relay analized with Nmap and Shodan (if you use the switches for shodan). The reports will be generated in your home directory.";
+  $scope.switches.push($scope.generateSimpleReport);
+
+  $scope.controllerPort = new Object();
+  $scope.controllerPort.longSwitch='--controller-port';
+  $scope.controllerPort.helpSwitch="Controller's port of the local instance of TOR. (Default=9151)";
+  $scope.switches.push($scope.controllerPort);
+  
+  
+  TODO: Shodan Support.
+  $scope.shodanKey = new Object();
+  $scope.shodanKey.longSwitch='--shodan-key';
+  $scope.shodanKey.helpSwitch="Development Key to use Shodan API.";
+  $scope.switches.push($scope.shodanKey);
+  $scope.useShodan = new Object();
+  $scope.useShodan.longSwitch='--use-shodan';
+  $scope.useShodan.helpSwitch="Use ShodanHQ Service. (Specify -k/--shodan-key to set up the file where's stored your shodan key.)";
+  $scope.switches.push($scope.useShodan);
+  
+  TODO: Start a new "Local tor instance from web"?
+  $scope.useCircuitNodes = new Object();
+  $scope.useCircuitNodes.longSwitch='--use-circuit-nodes';
+  $scope.useCircuitNodes.helpSwitch="Use the exit nodes selected for a local instance of TOR.";
+  $scope.switches.push($scope.useCircuitNodes);
+  $scope.useLocalTorInstance = new Object();
+  $scope.useLocalTorInstance.longSwitch='--use-localinstance';  
+  $scope.useLocalTorInstance.helpSwitch="Use a local TOR instance started with the option -T/--tor-localinstance (Socks Proxy included) to execute requests from the plugins loaded. By default, if you don't start a TOR local instance and don't specify this option, the settings defined in 'config.py' will be used to perform requests to hidden services.";
+  $scope.switches.push($scope.useLocalTorInstance);
+  $scope.torLocalInstance = new Object();
+  $scope.torLocalInstance.longSwitch="--tor-localinstance";
+  $scope.torLocalInstance.helpSwitch='Start a new local TOR instance with the "torrc" file specified. DO NOT RUN TORTAZO WITH THIS OPTION AS ROOT!';
+  $scope.switches.push($scope.torLocalInstance);
+  */
+  
+  /*
+  BOTNET OPTIONS.
+  $scope.zombieMode = new Object();
+  $scope.zombieMode.longSwitch='--zombie-mode';
+  $scope.zombieMode.helpSwitch="This option reads the tortazo_botnet.bot file generated from previous successful attacks. With this option you can select the Nicknames that will be excluded. (Nicknames included in the tortazo_botnet.bot). For instance, '-z Nickname1,Nickname2' or '-z all' to include all nicknames.";
+  $scope.switches.push($scope.zombieMode);
+
+  $scope.openShell = new Object();
+  $scope.openShell.longSwitch='--open-shell';
+  $scope.openShell.helpSwitch="Open a shell on the specified host.";
+  $scope.switches.push($scope.openShell);
+  
+  $scope.runCommandBotnet = new Object();
+  $scope.runCommandBotnet.longSwitch='--run-command';
+  $scope.runCommandBotnet.helpSwitch='Execute a command across the hosts of the botnet. Requieres the -z/--zombie-mode. example: --run-command "uname -a; uptime" ';
+  $scope.switches.push($scope.runCommandBotnet);  
+  */
+  
+  /**
+  PLUGIN OPTIONS.
+  $scope.listPlugins = new Object()
+  $scope.listPlugins.longSwitch='--list-plugins';
+  $scope.listPlugins.helpSwitch="List of plugins loaded.";
+  $scope.switches.push($scope.listPlugins);  
+
+  $scope.usePlugin = new Object()
+  $scope.usePlugin.longSwitch='--use-plugin'; 
+  $scope.usePlugin.helpSwitch='Execute a plugin. To see the available plugins, execute Tortazo with switch -L / --list-plugins';
+  $scope.switches.push($scope.usePlugin);
+  
+  $scope.pluginArguments = new Object();
+  $scope.pluginArguments.longSwitch='--plugin-arguments';
+  $scope.pluginArguments.helpSwitch='Args to execute the specified plugin with the switch -P / --use-plugin. List of key/value pairs separated by colon. Example= nessusHost=127.0.0.1,nessusPort=8843,nessusUser=adastra,nessusPassword=adastra';
+  $scope.switches.push($scope.pluginArguments);
+  */
+  
+  /**
+  ONION REPOSITORY OPTIONS.
+  $scope.onionPartialAddress = new Object();
+  $scope.onionPartialAddress.longSwitch="--onionpartial-address";
+  $scope.onionPartialAddress.helpSwitch="Partial address of a hidden service. Used in Onion repository mode.";
+  $scope.switches.push($scope.onionPartialAddress);
+  
+  $scope.onionRepositoryMode = new Object();
+  $scope.onionRepositoryMode.longSwitch="--onion-repository";
+  $scope.onionRepositoryMode.helpSwitch="Activate the Onion Repository mode and try to find hidden services in the TOR deep web.";
+  $scope.switches.push($scope.onionRepositoryMode);
+        
+  $scope.workerThreadsRepository = new Object();
+  $scope.workerThreadsRepository.longSwitch="--workers-repository";
+  $scope.workerThreadsRepository.helpSwitch="Number of threads used to process the ONION addresses generated.";
+  $scope.switches.push($scope.workerThreadsRepository);
+  
+  $scope.validCharsRepository = new Object();
+  $scope.validCharsRepository.longSwitch="--validchars-repository";
+  $scope.validCharsRepository.helpSwitch="Valid characters to use in the generation process of onion addresses. Default: All characters between a-z and digits between 2-7";
+  $scope.switches.push($scope.validCharsRepository);
+  */
+
+  $scope.useMirrors = new Object();
+  $scope.useMirrors.name="useMirrors";
+  $scope.useMirrors.longSwitch='--use-mirrors';
+  $scope.useMirrors.helpSwitch="Use the mirror directories of TOR. This will help to not overwhelm the official directories";
+  $scope.useMirrors.alertMessage="Your scan will use the mirror directories intead the official authoritative directories. But don't worry it's OK too.";
+  $scope.useMirrors.alertType="warning";
+  $scope.useMirrors.maxValueRestriction=null;
+  $scope.useMirrors.allowedValue="input";
+  $scope.useMirrors.valued = false;
+  $scope.switches.push($scope.useMirrors);
+  
+  $scope.mode = new Object();
+  $scope.mode.name="mode";
+  $scope.mode.longSwitch='--mode';
+  $scope.mode.helpSwitch="Filter the platform of exit-nodes to attack.";
+  $scope.mode.alertMessage="Your scan will be filtered by the operative system selected.";
+  $scope.mode.alertType="success";
+  $scope.mode.maxValueRestriction=null;
+  $scope.mode.allowedValue=["windows", "linux", "darwin", "freebsd", "openbsd", "bitrig","netbsd"];
+  $scope.mode.valued = true;
+  $scope.switches.push($scope.mode);
+  
+  $scope.useDatabase = new Object();
+  $scope.useDatabase.name="useDatabase";
+  $scope.useDatabase.longSwitch='--use-database';
+  $scope.useDatabase.helpSwitch="Tortazo will store the last results from the scanning process in a database. If you use this flag, Tortazo will omit the scan and just will try use the data stored from the last execution.";
+  $scope.useDatabase.alertMessage="If you don't specify the switch '--scan-identifier', Tortazo will load the last 10 scans performed.";
+  $scope.useDatabase.alertType="warning";
+  $scope.useDatabase.maxValueRestriction=null;
+  $scope.useDatabase.allowedValue="input";
+  $scope.useDatabase.valued = false;
+  $scope.switches.push($scope.useDatabase);
+  
+  /**
+  Well, clean the scans performed before is not a good idea.
+  $scope.cleanDatabase = new Object();
+  $scope.cleanDatabase.longSwitch='--clean-database';
+  $scope.cleanDatabase.helpSwitch="Tortazo will delete all records stored in database when finished executing. This option will delete every record stored, included the data from previous scans.";
+  $scope.switches.push($scope.cleanDatabase);
+  */
+
+  $scope.serversToAttack = new Object();
+  $scope.serversToAttack.name='serversToAttack';  
+  $scope.serversToAttack.longSwitch='--servers-to-attack';  
+  $scope.serversToAttack.helpSwitch="Number of TOR exit-nodes to attack. If this switch is used with --use-database, will recover information stored from the last 'n' scans. Default = 10";
+  $scope.serversToAttack.alertMessage="In this version of Tortazo you can only scan the first 30 relays in the current consensus descriptor.";
+  $scope.serversToAttack.alertType="warning";
+  $scope.serversToAttack.maxValueRestriction=30;
+  $scope.serversToAttack.allowedValue="input";
+  $scope.serversToAttack.valued = true;
+  $scope.switches.push($scope.serversToAttack);
+  
+  $scope.listScanPorts = new Object();
+  $scope.listScanPorts.name='listScanPorts';  
+  $scope.listScanPorts.longSwitch='--list-ports';
+  $scope.listScanPorts.helpSwitch="Comma-separated List of ports to scan with Nmap. Don't use spaces";
+  $scope.listScanPorts.alertMessage="Now, you'll overwritte the default list of ports to scan.";
+  $scope.listScanPorts.alertType="success";
+  $scope.listScanPorts.maxValueRestriction=null;
+  $scope.listScanPorts.allowedValue="input";
+  $scope.listScanPorts.valued = true;
+  $scope.switches.push($scope.listScanPorts);
+  
+  $scope.excludeFingerprints = new Object();
+  $scope.excludeFingerprints.name='excludeFingerprints';  
+  $scope.excludeFingerprints.longSwitch='--exclude-fingerprints';
+  $scope.excludeFingerprints.helpSwitch="Comma-separated List of fingerprints to exclude from the Tortazo scan. Don't use spaces";
+  $scope.excludeFingerprints.alertMessage="Now, you'll exclude the selected fingerprints from your scan.";
+  $scope.excludeFingerprints.alertType="success";
+  $scope.excludeFingerprints.maxValueRestriction=null;
+  $scope.excludeFingerprints.allowedValue="input";  
+  $scope.excludeFingerprints.valued = true;
+  $scope.switches.push($scope.excludeFingerprints);
+  
+  $scope.scanArguments = new Object();
+  $scope.scanArguments.name='scanArguments';  
+  $scope.scanArguments.longSwitch='--scan-arguments';
+  $scope.scanArguments.helpSwitch='Arguments to Nmap. Use "" to specify the arguments. For example: "-sSV -A"';
+  $scope.scanArguments.alertMessage="Now, you'll execute your scans using the NMap specified switches.";
+  $scope.scanArguments.alertType="success";
+  $scope.scanArguments.maxValueRestriction=null;
+  $scope.scanArguments.allowedValue="input";  
+  $scope.scanArguments.valued = true;
+  $scope.switches.push($scope.scanArguments);
+  
+  $scope.exitNodeFingerprint = new Object();
+  $scope.exitNodeFingerprint.name='exitNodeFingerprint';  
+  $scope.exitNodeFingerprint.longSwitch='--exit-node-fingerprint';
+  $scope.exitNodeFingerprint.helpSwitch="ExitNode's Fingerprint to attack.";
+  $scope.exitNodeFingerprint.alertMessage="Now, you'll execute your scan against the specified fingerprint (if this is found in the current consensus descriptor).";
+  $scope.exitNodeFingerprint.alertType="success";
+  $scope.exitNodeFingerprint.maxValueRestriction=null;
+  $scope.exitNodeFingerprint.allowedValue="input";  
+  $scope.exitNodeFingerprint.valued = true;
+  $scope.switches.push($scope.exitNodeFingerprint);
+  
+  $scope.scanIdentifier = new Object();
+  $scope.scanIdentifier.name='scanIdentifier';  
+  $scope.scanIdentifier.longSwitch="--scan-identifier";
+  $scope.scanIdentifier.helpSwitch="scan identifier in the Scan table. Tortazo will use the relays related with the scan identifier specified with this option.";
+  $scope.scanIdentifier.alertMessage="You'll need to apply the switch '--use-database' to process this switch. If you already added it, then it's Ok.";
+  $scope.scanIdentifier.alertType="danger";
+  $scope.scanIdentifier.maxValueRestriction=null;
+  $scope.scanIdentifier.allowedValue="input";  
+  $scope.scanIdentifier.valued = true;
+  $scope.switches.push($scope.scanIdentifier);
+  
+  /**
+  Starting the function logic.
+  */
+
+  $scope.loadInputType = function(selectedSwitch) {
+    $scope.alerts = [];
+    $scope.selectedSwitch = selectedSwitch;
+    for(currentSwitch in $scope.switches) {
+      if($scope.switches[currentSwitch].longSwitch == selectedSwitch.longSwitch) {
+          if($scope.switches[currentSwitch].allowedValue == "input") {
+            $scope.showSelect = false;
+            $scope.showInput = true;
+            $scope.showAddButton = true;
+            $scope.alerts.push({type: 'success', msg: $scope.switches[currentSwitch].helpSwitch });
+            break;
+          }else{
+            $scope.showInput = false;
+            $scope.showSelect = true;
+            $scope.showAddButton = true;
+            $scope.values =  $scope.switches[currentSwitch].allowedValue;
+            $scope.alerts.push({type: 'success', msg: $scope.switches[currentSwitch].helpSwitch });
+            break;
+          }
       }
-    }*/
+    }
+  }  
+  
+  $scope.setSelectedValue = function(selectedSwitchValue) {
+    $scope.selectedSwitchValue = selectedSwitchValue;
+  }
+  
+  $scope.runCommand = function() {
+    hasMode = true;
+    if($scope.selectedSwitches['mode'] === undefined) {
+        hasMode = false;
+    }
+    if(hasMode == false) {
+      $scope.alerts.push({type: 'danger', msg: "The switch -m/--mode is mandatory." });
+      return
+    }
     
-    /*var ret2 = {
-        latitude: 90,
-        longitude: 40,
-        id : 1};
-    $scope.map.markers.push(ret2);
-
-        /*console.log(response);
-        for(result in response.results) {
-          console.log(result);
-          $scope.references['latitude'] = result.nodelatitude;
-          $scope.references['longitude'] = result.nodelongitude;
-        }*/
-
-      //alert($scope.references);
+    scansService.executeTortazoScan($scope.selectedSwitches).success(function (response) {
+      console.log(response);
+      $scope.executionResult = response.results;
+      $scope.alerts.push({type: 'success', msg: "OK. "+$scope.executionResult });
+    });
+  }
     
-//});
+  $scope.addSwitch = function(switchValue) {
+    $scope.alerts = [];
+    $scope.switchValue = switchValue;
+    
+    if($scope.selectedSwitch.allowedValue == "input" && $scope.selectedSwitch.valued && $scope.switchValue == null) {
+      $scope.alerts.push({type: 'danger', msg: "The switch specified requieres a valid value. Please, enter it." });
+      return;
+    }
+    if($scope.selectedSwitch.maxValueRestriction != null){
+      if(isNaN($scope.switchValue) == false) {
+        numValue = parseInt($scope.switchValue)
+        if(numValue > $scope.selectedSwitch.maxValueRestriction) {
+          $scope.alerts.push({type: 'danger', msg: $scope.selectedSwitch.maxValueRestriction+" is the max value for the specified switch." });
+          return;  
+        } 
+      }else {
+          $scope.alerts.push({type: 'danger', msg: "The switch specified requieres a numeric value. Please, enter it." });
+          return;
+      }
+    }
 
+    
+
+    if($scope.switchValue != null &&  $scope.selectedSwitch.valued) {
+      //Valued switch
+      $scope.selectedSwitches[$scope.selectedSwitch.name] = {"switch":$scope.selectedSwitch.longSwitch, "value" : $scope.switchValue};
+      $scope.alerts.push({type: $scope.selectedSwitch.alertType, msg: $scope.selectedSwitch.alertMessage });      
+    } 
+    if(!$scope.selectedSwitch.valued) {
+      //Non-valued switch
+      $scope.selectedSwitches[$scope.selectedSwitch.name] = {"switch":$scope.selectedSwitch.longSwitch, "value" : "None"};
+      $scope.alerts.push({type: $scope.selectedSwitch.alertType, msg: $scope.selectedSwitch.alertMessage });      
+    }
+    if($scope.selectedSwitch.allowedValue != "input") {
+      //Option value.
+      if($scope.selectedSwitchValue != null) {
+          $scope.selectedSwitches[$scope.selectedSwitch.name] = {"switch":$scope.selectedSwitch.longSwitch, "value" : $scope.selectedSwitchValue};
+      } else {
+          $scope.alerts.push({type: 'danger', msg: "Please, select a value." });
+      }      
+    }
+    
+    $scope.commandArguments = "";
+    for(switchKey in $scope.selectedSwitches) {
+      if($scope.selectedSwitches[switchKey].value == "None") {
+        $scope.commandArguments += $scope.selectedSwitches[switchKey].switch+" ";
+      }else{
+        $scope.commandArguments += $scope.selectedSwitches[switchKey].switch+" "+$scope.selectedSwitches[switchKey].value+" ";
+      }
+    }
+    $scope.commandToRun = "Tortazo.py "+$scope.commandArguments;
+  }
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.slice(index, 1);
+  }
+});
 
 tortazoControllers.controller('geoLocationController', function($scope, $rootScope, uiGmapGoogleMapApi, uiGmapLogger, geoLocationService, relaysService) {
     $scope.isCollapsedBasicInfo = true;
@@ -223,9 +531,7 @@ tortazoControllers.controller('geoLocationController', function($scope, $rootSco
       bounds: {}
     };
     $scope.options = {
-      scrollwheel: false
-      //mapTypeId : google.maps.MapTypeId.HYBRID
-      //mapTypeId : google.maps.MapTypeId.SATELLITE
+      scrollwheel: true
     };
     $scope.setSelectedRelays = function(selectedRelays) {
       $rootScope.selectedRelays = selectedRelays;
@@ -337,9 +643,7 @@ tortazoControllers.controller('onionRepoController', function($scope, onionRepoS
     });
 
     onionRepoService.getResponses($scope.currentPageRandom).success(function (response) {
-      console.log()
         $scope.responsesList = response.results;
-        console.log(response.count);
     });
 
 });
